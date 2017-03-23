@@ -35,9 +35,6 @@
                             <constraint firstItem="HnM-Jf-fV9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="eAp-Rl-KQd"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="showPressed" destination="HnM-Jf-fV9" id="9xU-sa-gCK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>

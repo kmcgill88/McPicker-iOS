@@ -17,8 +17,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showPressed(_ sender: Any) {
+        let data:[String : Any] = [
+            "numberOfComponents" : 1,
+            "displayData" : ["Kevin", "Lauren", "Kibby", "Stella"],
+        ]
         
-        McPicker.show()
+        let picker = McPicker(pickerData:data)
+        picker.show()
+        
+        McPicker.show(done: { word in
+            
+            return "Word is: \(word)"
+        })
     }
     
 }
