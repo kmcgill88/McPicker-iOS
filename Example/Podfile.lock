@@ -1,0 +1,16 @@
+PODS:
+  - McPicker (0.1.0)
+
+DEPENDENCIES:
+  - McPicker (from `../`)
+
+EXTERNAL SOURCES:
+  McPicker:
+    :path: ../
+
+SPEC CHECKSUMS:
+  McPicker: 2ced96570c19ec1d34b97288eed72ad558900257
+
+PODFILE CHECKSUM: df27bacc289d117609fa33791b354401fb37cd9e
+
+COCOAPODS: 1.1.1
