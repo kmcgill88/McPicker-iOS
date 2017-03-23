@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'McPicker_Example' do
+  pod 'McPicker', :path => '../'
+
+  target 'McPicker_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
