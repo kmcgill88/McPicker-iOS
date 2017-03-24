@@ -10,6 +10,10 @@ import UIKit
 
 open class McPicker: UIView {
     
+    enum AnimationDirection {
+        case `in`, out
+    }
+    
     fileprivate var pickerSelection:String = ""
     
     fileprivate var pickerData:[String:Any] = [:]
@@ -35,6 +39,12 @@ open class McPicker: UIView {
     fileprivate var picker:UIPickerView = UIPickerView()
     fileprivate var toolbar:UIToolbar = UIToolbar()
     
+    private let backgroundView:UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
     private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                                 target: self,
                                                 action: #selector(done))
@@ -53,8 +63,9 @@ open class McPicker: UIView {
         }
     }
     
-    private let toolBarHeight:CGFloat = 44.0
-    private let backgroundAlpha:CGFloat =  0.75
+    private let PICKER_HEIGHT:CGFloat = 216.0
+    private let TOOLBAR_HEIGHT:CGFloat = 44.0
+    private let BACKGROUND_ALPHA:CGFloat =  0.75
 
     private var doneHandler:(_ word:String) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
@@ -82,7 +93,6 @@ open class McPicker: UIView {
         setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
         
         self.backgroundColor = UIColor.black
-        self.alpha = backgroundAlpha
         
         picker.delegate = self
         picker.dataSource = self
@@ -101,9 +111,7 @@ open class McPicker: UIView {
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         
-        self.addSubview(picker)
-        self.addSubview(toolbar)
-        topViewController.view.addSubview(self)
+        animateViews(animationDirection: .in)
     }
     
     open class func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void) {
@@ -139,20 +147,49 @@ open class McPicker: UIView {
         }
     }
 
+    func animateViews(animationDirection:AnimationDirection){
+        
+        // Default to 'out' state
+        //
+        self.alpha = 0.0
+        
+        if animationDirection == .in {
+            self.alpha = BACKGROUND_ALPHA
+
+            
+            self.addSubview(picker)
+            self.addSubview(toolbar)
+            topViewController.view.addSubview(self)
+        }
+        
+        UIView.animate(withDuration: 1.0, animations: {
+            
+        }, completion: { completed in
+            
+        })
+        
+
+    }
 
     func sizeViews() {
         self.frame = CGRect(x: 0,
                             y: 0,
                             width: self.topViewController.view.bounds.size.width,
                             height: self.topViewController.view.bounds.size.height)
-        picker.frame = CGRect(x: 0,
-                              y: self.bounds.size.height - self.picker.bounds.size.height,
-                              width: self.bounds.size.width,
-                              height: self.picker.bounds.size.height)
+        
+        backgroundView.frame = CGRect(x: 0,
+                                      y: self.bounds.size.height,
+                                      width: self.bounds.size.width,
+                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+
         toolbar.frame = CGRect(x: 0,
-                               y: self.bounds.size.height - picker.bounds.size.height - toolBarHeight,
-                               width: self.bounds.size.width,
-                               height: toolBarHeight)
+                               y: 0,
+                               width: backgroundView.bounds.size.width,
+                               height: TOOLBAR_HEIGHT)
+        picker.frame = CGRect(x: 0,
+                              y: toolbar.bounds.size.height,
+                              width: backgroundView.bounds.size.width,
+                              height: PICKER_HEIGHT)
     }
     
 }
