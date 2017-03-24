@@ -25,10 +25,7 @@ class ViewController: UIViewController {
         let picker = McPicker(pickerData:data)
         picker.show()
         
-        McPicker.show(done: { word in
-            
-            return "Word is: \(word)"
-        })
+
     }
     
 }
