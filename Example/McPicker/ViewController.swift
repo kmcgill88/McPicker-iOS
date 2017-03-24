@@ -32,7 +32,9 @@ class ViewController: UIViewController {
         
         // Show Picker
         //
-        picker.show(cancelHandler: {}, doneHandler: { selection in
+        picker.show(cancelHandler: {
+            print("Picker canceled.")
+        }, doneHandler: { selection in
            self.label.text = selection
         })
 

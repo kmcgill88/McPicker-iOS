@@ -54,6 +54,8 @@ open class McPicker: UIView {
     }
     
     private let toolBarHeight:CGFloat = 44.0
+    private let backgroundAlpha:CGFloat =  0.75
+
     private var doneHandler:(_ word:String) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
 
@@ -63,14 +65,24 @@ open class McPicker: UIView {
         
         self.pickerData = pickerData
 
+        setup()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
-
+        
         setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
-
-        picker.backgroundColor = UIColor.red
-        toolbar.backgroundColor = UIColor.blue
+        
         self.backgroundColor = UIColor.black
-        self.alpha = 0.75
+        self.alpha = backgroundAlpha
         
         picker.delegate = self
         picker.dataSource = self
@@ -83,15 +95,6 @@ open class McPicker: UIView {
             pickerSelection = firstItem
         }
     }
-    
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    private override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
 
     open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void){
         
