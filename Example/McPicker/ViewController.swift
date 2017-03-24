@@ -11,20 +11,30 @@ import McPicker
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var label: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     @IBAction func showPressed(_ sender: Any) {
+        
+        // Setup data
+        //
         let data:[String : Any] = [
             "numberOfComponents" : 1,
             "displayData" : ["Kevin", "Lauren", "Kibby", "Stella"],
         ]
         
+        // Init picker
+        //
         let picker = McPicker(pickerData:data)
-        picker.show()
         
+        // Show Picker
+        //
+        picker.show(cancelHandler: {}, doneHandler: { selection in
+           self.label.text = selection
+        })
 
     }
     

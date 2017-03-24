@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -28,13 +29,25 @@
                                     <action selector="showPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6xe-ey-aiJ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEx-GG-5Tp">
+                                <rect key="frame" x="16" y="76" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="fEx-GG-5Tp" firstAttribute="top" secondItem="HnM-Jf-fV9" secondAttribute="bottom" constant="18" id="JvO-2w-K0L"/>
                             <constraint firstItem="HnM-Jf-fV9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="RVe-GO-8tZ"/>
                             <constraint firstItem="HnM-Jf-fV9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="eAp-Rl-KQd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fEx-GG-5Tp" secondAttribute="trailing" id="i5v-oE-4aj"/>
+                            <constraint firstItem="fEx-GG-5Tp" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="uAB-ES-Isw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="label" destination="fEx-GG-5Tp" id="alK-q4-pWv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
