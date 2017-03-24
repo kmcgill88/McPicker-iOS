@@ -75,18 +75,7 @@ open class McPicker: UIView {
         picker.delegate = self
         picker.dataSource = self
         
-        self.frame = CGRect(x: 0,
-                            y: 0,
-                            width: self.topViewController.view.bounds.size.width,
-                            height: self.topViewController.view.bounds.size.height)
-        picker.frame = CGRect(x: 0,
-                              y: self.bounds.size.height - self.picker.bounds.size.height,
-                              width: self.bounds.size.width,
-                              height: self.picker.bounds.size.height)        
-        toolbar.frame = CGRect(x: 0,
-                               y: self.bounds.size.height - picker.bounds.size.height - toolBarHeight,
-                               width: self.bounds.size.width,
-                               height: toolBarHeight)
+        sizeViews()
         
         // Default selection to first item
         //
@@ -131,6 +120,38 @@ open class McPicker: UIView {
         self.cancelHandler()
         self.removeFromSuperview()
     }
+    
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        
+        if let _ = newWindow {
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(sizeViews),
+                                                   name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                   object: nil)
+        } else {
+            NotificationCenter.default.removeObserver(self,
+                                                      name: NSNotification.Name.UIDeviceOrientationDidChange,
+                                                      object: nil)
+        }
+    }
+
+
+    func sizeViews() {
+        self.frame = CGRect(x: 0,
+                            y: 0,
+                            width: self.topViewController.view.bounds.size.width,
+                            height: self.topViewController.view.bounds.size.height)
+        picker.frame = CGRect(x: 0,
+                              y: self.bounds.size.height - self.picker.bounds.size.height,
+                              width: self.bounds.size.width,
+                              height: self.picker.bounds.size.height)
+        toolbar.frame = CGRect(x: 0,
+                               y: self.bounds.size.height - picker.bounds.size.height - toolBarHeight,
+                               width: self.bounds.size.width,
+                               height: toolBarHeight)
+    }
+    
 }
 
 
