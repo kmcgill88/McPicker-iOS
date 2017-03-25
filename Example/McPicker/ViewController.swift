@@ -22,26 +22,6 @@ class ViewController: UIViewController {
 /*
         // Verbose Setup
         //
-        let data:[String : Any] = [
-            "numberOfComponents" : 1, // Defaults to 1 if omitted
-            "displayData" : ["Kevin", "Lauren", "Kibby", "Stella"],
-        ]
-        
-        let picker = McPicker(pickerData:data)
-        picker.show(cancelHandler: {
-            
-            // Do something interesting
-            //
-            print("Picker canceled.")
-            
-        }, doneHandler: { selection in
-            
-            // Selection Made
-            //
-            self.label.text = selection
-        })
-*/
-        
         let data:[[String]] = [
             ["Mr", "Mrs", "Miss"],
             ["Kevin", "Lauren", "Kibby", "Stella"]
@@ -61,8 +41,17 @@ class ViewController: UIViewController {
                 self.label.text = "\(prefix) \(name)"
             }
         })
-
+*/
+        
+        // Short hand
+        //
+        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]], doneHandler: { selections in
+            // Selection(s) Made
+            //
+            if let name = selections[0] {
+                self.label.text = name
+            }
+        })
+        
     }
-    
 }
-

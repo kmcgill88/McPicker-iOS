@@ -76,7 +76,6 @@ open class McPicker: UIView {
         for (index, element) in pickerData.enumerated() {
             pickerSelection[index] = element.first
         }
-        print(pickerSelection)
     }
 
     open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
@@ -86,16 +85,15 @@ open class McPicker: UIView {
     }
     
     open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void){
-        self.doneHandler = doneHandler
-        animateViews(direction: .in)
+        show(cancelHandler: {}, doneHandler: doneHandler)
     }
     
-    open class func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void) {
-        // TODO: implement
+    open class func show(data:[[String]], cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data:data).show(cancelHandler: cancelHandler, doneHandler: doneHandler)
     }
     
-    open class func show(doneHandler:@escaping (_ word:String) -> Void) {
-        // TODO: implement
+    open class func show(data:[[String]], doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data:data).show(cancelHandler: {}, doneHandler: doneHandler)
     }
     
     open func setToolbarItems(items: [UIBarButtonItem]) {
