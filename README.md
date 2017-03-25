@@ -8,7 +8,18 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+## Usage
+```swift
+McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]], doneHandler: { selections in
+    if let name = selections[0] {
+        self.label.text = name
+    }
+})
+```
+
 ## Requirements
+- Swift 3+
+- Xcode 8
 
 ## Installation
 
