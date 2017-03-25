@@ -92,8 +92,6 @@ open class McPicker: UIView {
         self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
         backgroundView.backgroundColor = UIColor.white
         
-        picker.backgroundColor = UIColor.blue
-        
         picker.delegate = self
         picker.dataSource = self
         
@@ -107,14 +105,21 @@ open class McPicker: UIView {
     }
 
     open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void){
-        
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
-
+        animateViews(direction: .in)
+    }
+    
+    open func show(doneHandler:@escaping (_ word:String) -> Void){
+        self.doneHandler = doneHandler
         animateViews(direction: .in)
     }
     
     open class func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void) {
+        // TODO: implement
+    }
+    
+    open class func show(doneHandler:@escaping (_ word:String) -> Void) {
         // TODO: implement
     }
     

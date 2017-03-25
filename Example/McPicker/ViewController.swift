@@ -19,24 +19,35 @@ class ViewController: UIViewController {
     
     @IBAction func showPressed(_ sender: Any) {
         
-        // Setup data
+        // Verbose Setup
         //
         let data:[String : Any] = [
-            "numberOfComponents" : 1,
+            "numberOfComponents" : 1, // Defaults to 1 if omitted
             "displayData" : ["Kevin", "Lauren", "Kibby", "Stella"],
         ]
         
-        // Init picker
-        //
         let picker = McPicker(pickerData:data)
+        picker.show(cancelHandler: {
+            
+            // Do something interesting
+            //
+            print("Picker canceled.")
+            
+        }, doneHandler: { selection in
+            
+            // Selection Made
+            //
+            self.label.text = selection
+        })
+
         
         // Show Picker
         //
-        picker.show(cancelHandler: {
-            print("Picker canceled.")
-        }, doneHandler: { selection in
-           self.label.text = selection
-        })
+        /*
+         picker.show(doneHandler: { selection in
+         self.label.text = selection
+         })
+         */
 
     }
     

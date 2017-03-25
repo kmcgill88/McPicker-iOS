@@ -1,6 +1,5 @@
 # McPicker
 
-[![CI Status](http://img.shields.io/travis/Kevin McGill/McPicker.svg?style=flat)](https://travis-ci.org/Kevin McGill/McPicker)
 [![Version](https://img.shields.io/cocoapods/v/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![License](https://img.shields.io/cocoapods/l/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
