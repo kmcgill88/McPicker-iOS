@@ -39,11 +39,7 @@ open class McPicker: UIView {
     fileprivate var picker:UIPickerView = UIPickerView()
     fileprivate var toolbar:UIToolbar = UIToolbar()
     
-    private let backgroundView:UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        return view
-    }()
+    private let backgroundView:UIView = UIView()
     
     private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done,
                                                 target: self,
@@ -66,6 +62,7 @@ open class McPicker: UIView {
     private let PICKER_HEIGHT:CGFloat = 216.0
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
+    private let ANIMATION_SPEED = 0.25
 
     private var doneHandler:(_ word:String) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
@@ -92,7 +89,10 @@ open class McPicker: UIView {
         
         setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
         
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
+        backgroundView.backgroundColor = UIColor.white
+        
+        picker.backgroundColor = UIColor.blue
         
         picker.delegate = self
         picker.dataSource = self
@@ -110,8 +110,8 @@ open class McPicker: UIView {
         
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
-        
-        animateViews(animationDirection: .in)
+
+        animateViews(direction: .in)
     }
     
     open class func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void) {
@@ -123,13 +123,13 @@ open class McPicker: UIView {
     }
     
     func done() {
+        animateViews(direction: .out)
         self.doneHandler(self.pickerSelection)
-        self.removeFromSuperview()
     }
     
     func cancel() {
+        animateViews(direction: .out)
         self.cancelHandler()
-        self.removeFromSuperview()
     }
     
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -147,28 +147,45 @@ open class McPicker: UIView {
         }
     }
 
-    func animateViews(animationDirection:AnimationDirection){
+    func animateViews(direction:AnimationDirection){
         
-        // Default to 'out' state
-        //
-        self.alpha = 0.0
-        
-        if animationDirection == .in {
-            self.alpha = BACKGROUND_ALPHA
+        var backgroundFrame = backgroundView.frame
 
+        if direction == .in {
+            // Start transparent
+            //
+            self.backgroundColor = UIColor.black.withAlphaComponent(0)
             
-            self.addSubview(picker)
-            self.addSubview(toolbar)
+            // Start picker off the bottom of the screen
+            //
+            backgroundFrame.origin.y = self.topViewController.view.bounds.size.height
+            backgroundView.frame = backgroundFrame
+            
+            // Add views
+            //
+            backgroundView.addSubview(picker)
+            backgroundView.addSubview(toolbar)
+            self.addSubview(backgroundView)
             topViewController.view.addSubview(self)
+            
+            // Animate things on screen
+            //
+            UIView.animate(withDuration: ANIMATION_SPEED, animations: {
+                self.backgroundColor = UIColor.black.withAlphaComponent(self.BACKGROUND_ALPHA)
+                backgroundFrame.origin.y = self.topViewController.view.bounds.size.height - self.backgroundView.bounds.height
+                self.backgroundView.frame = backgroundFrame
+            })
+        } else {
+            // Animate things off screen
+            //
+            UIView.animate(withDuration: ANIMATION_SPEED, animations: {
+                self.backgroundColor = UIColor.black.withAlphaComponent(0)
+                backgroundFrame.origin.y = self.topViewController.view.bounds.size.height
+                self.backgroundView.frame = backgroundFrame
+            }, completion: { completed in
+                self.removeFromSuperview()
+            })
         }
-        
-        UIView.animate(withDuration: 1.0, animations: {
-            
-        }, completion: { completed in
-            
-        })
-        
-
     }
 
     func sizeViews() {
@@ -176,12 +193,10 @@ open class McPicker: UIView {
                             y: 0,
                             width: self.topViewController.view.bounds.size.width,
                             height: self.topViewController.view.bounds.size.height)
-        
         backgroundView.frame = CGRect(x: 0,
-                                      y: self.bounds.size.height,
+                                      y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
                                       width: self.bounds.size.width,
                                       height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
-
         toolbar.frame = CGRect(x: 0,
                                y: 0,
                                width: backgroundView.bounds.size.width,
@@ -191,7 +206,6 @@ open class McPicker: UIView {
                               width: backgroundView.bounds.size.width,
                               height: PICKER_HEIGHT)
     }
-    
 }
 
 
