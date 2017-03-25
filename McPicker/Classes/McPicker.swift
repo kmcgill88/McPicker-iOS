@@ -14,44 +14,20 @@ open class McPicker: UIView {
         case `in`, out
     }
     
-    fileprivate var pickerSelection:String = ""
-    
-    fileprivate var pickerData:[String:Any] = [:]
-    
+    fileprivate var pickerSelection:[Int:String] = [:]
+    fileprivate var pickerData:[[String]] = []
     fileprivate var numberOfComponents:Int {
         get {
-            if let numOfComponents = pickerData["numberOfComponents"] as? Int {
-                return numOfComponents
-            }
-            return 1
+            return pickerData.count
         }
     }
-    
-    fileprivate var displayData:[String] {
-        get {
-            if let strings = pickerData["displayData"] as? [String] {
-                return strings
-            }
-            return []
-        }
-    }
-    
-    fileprivate var picker:UIPickerView = UIPickerView()
-    fileprivate var toolbar:UIToolbar = UIToolbar()
-    
+    private var picker:UIPickerView = UIPickerView()
+    private var toolbar:UIToolbar = UIToolbar()
     private let backgroundView:UIView = UIView()
     
-    private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                                target: self,
-                                                action: #selector(done))
-    
-    private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel,
-                                                  target: self,
-                                                  action: #selector(cancel))
-    
-    private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                                target: nil,
-                                                action: nil)
+    private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+    private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+    private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
     private var topViewController:UIViewController {
         get {
@@ -64,15 +40,13 @@ open class McPicker: UIView {
     private let BACKGROUND_ALPHA:CGFloat =  0.75
     private let ANIMATION_SPEED = 0.25
 
-    private var doneHandler:(_ word:String) -> Void = {_ in }
+    private var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
 
     
-    convenience public init(pickerData:[String:Any]) {
+    convenience public init(data:[[String]]) {
         self.init(frame: CGRect.zero)
-        
-        self.pickerData = pickerData
-
+        self.pickerData = data
         setup()
     }
     
@@ -97,20 +71,21 @@ open class McPicker: UIView {
         
         sizeViews()
         
-        // Default selection to first item
+        // Default selection to first item per component
         //
-        if let firstItem = displayData.first {
-            pickerSelection = firstItem
+        for (index, element) in pickerData.enumerated() {
+            pickerSelection[index] = element.first
         }
+        print(pickerSelection)
     }
 
-    open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ word:String) -> Void){
+    open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         animateViews(direction: .in)
     }
     
-    open func show(doneHandler:@escaping (_ word:String) -> Void){
+    open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void){
         self.doneHandler = doneHandler
         animateViews(direction: .in)
     }
@@ -215,25 +190,23 @@ open class McPicker: UIView {
 
 
 extension McPicker : UIPickerViewDataSource {
-    
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return self.numberOfComponents
     }
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.displayData.count
+        return pickerData[component].count
     }
 }
 
 
 extension McPicker : UIPickerViewDelegate {
-    
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.displayData[row]
+        return pickerData[component][row]
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.pickerSelection = self.displayData[row]
+        self.pickerSelection[component] = pickerData[component][row]
     }
 }
 

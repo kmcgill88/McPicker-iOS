@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     
     @IBAction func showPressed(_ sender: Any) {
         
+/*
         // Verbose Setup
         //
         let data:[String : Any] = [
@@ -39,15 +40,27 @@ class ViewController: UIViewController {
             //
             self.label.text = selection
         })
-
+*/
         
-        // Show Picker
-        //
-        /*
-         picker.show(doneHandler: { selection in
-         self.label.text = selection
-         })
-         */
+        let data:[[String]] = [
+            ["Mr", "Mrs", "Miss"],
+            ["Kevin", "Lauren", "Kibby", "Stella"]
+        ]
+        let picker = McPicker(data:data)
+        picker.show(cancelHandler: {
+            
+            // Do something interesting
+            //
+            print("Picker canceled.")
+            
+        }, doneHandler: { selections in
+            
+            // Selection(s) Made
+            //
+            if let prefix = selections[0], let name = selections[1] {
+                self.label.text = "\(prefix) \(name)"
+            }
+        })
 
     }
     
