@@ -17,6 +17,9 @@ McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]], doneHandler: { sel
 })
 ```
 
+## TODO
+- [ ] Add iPad Support
+
 ## Requirements
 - Swift 3+
 - Xcode 8

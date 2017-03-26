@@ -52,6 +52,31 @@ class ViewController: UIViewController {
                 self.label.text = name
             }
         })
+    }
+    
+    @IBAction func styledPicker(_ sender: Any) {
+
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor.green
+        label.font = UIFont(name:"American Typewriter", size: 25)!
+        label.backgroundColor = UIColor.blue
+        
+        let data:[[String]] = [
+            ["Kevin", "Lauren", "Kibby", "Stella"]
+        ]
+
+        let picker = McPicker(data:data)
+        picker.label = label
+        picker.show(doneHandler: { selections in
+            
+            // Selection(s) Made
+            //
+            if let prefix = selections[0], let name = selections[1] {
+                self.label.text = "\(prefix) \(name)"
+            }
+        })
         
     }
+    
 }

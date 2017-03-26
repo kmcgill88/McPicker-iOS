@@ -23,14 +23,21 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HnM-Jf-fV9">
-                                <rect key="frame" x="168.5" y="28" width="38" height="30"/>
-                                <state key="normal" title="Show"/>
+                                <rect key="frame" x="140" y="28" width="96" height="30"/>
+                                <state key="normal" title="Default Picker"/>
                                 <connections>
                                     <action selector="showPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6xe-ey-aiJ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a2x-VG-7p3">
+                                <rect key="frame" x="142" y="78" width="90" height="30"/>
+                                <state key="normal" title="Styled Picker"/>
+                                <connections>
+                                    <action selector="styledPicker:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="OSN-tI-qZs"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEx-GG-5Tp">
-                                <rect key="frame" x="16" y="76" width="343" height="21"/>
+                                <rect key="frame" x="16" y="128" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -38,9 +45,11 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fEx-GG-5Tp" firstAttribute="top" secondItem="HnM-Jf-fV9" secondAttribute="bottom" constant="18" id="JvO-2w-K0L"/>
+                            <constraint firstItem="a2x-VG-7p3" firstAttribute="centerX" secondItem="fEx-GG-5Tp" secondAttribute="centerX" id="30V-vZ-BE4"/>
                             <constraint firstItem="HnM-Jf-fV9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="RVe-GO-8tZ"/>
+                            <constraint firstItem="fEx-GG-5Tp" firstAttribute="top" secondItem="a2x-VG-7p3" secondAttribute="bottom" constant="20" id="c7Z-cq-V7C"/>
                             <constraint firstItem="HnM-Jf-fV9" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="eAp-Rl-KQd"/>
+                            <constraint firstItem="a2x-VG-7p3" firstAttribute="top" secondItem="HnM-Jf-fV9" secondAttribute="bottom" constant="20" id="gBw-qX-R5x"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fEx-GG-5Tp" secondAttribute="trailing" id="i5v-oE-4aj"/>
                             <constraint firstItem="fEx-GG-5Tp" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="uAB-ES-Isw"/>
                         </constraints>

@@ -14,6 +14,8 @@ open class McPicker: UIView {
         case `in`, out
     }
     
+    open var label:UILabel?
+    
     fileprivate var pickerSelection:[Int:String] = [:]
     fileprivate var pickerData:[[String]] = []
     fileprivate var numberOfComponents:Int {
@@ -39,6 +41,7 @@ open class McPicker: UIView {
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
     private let ANIMATION_SPEED = 0.25
+    fileprivate let DEFAULT_FONT_SIZE:CGFloat = 25.0
 
     private var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
@@ -199,10 +202,43 @@ extension McPicker : UIPickerViewDataSource {
 
 
 extension McPicker : UIPickerViewDelegate {
-    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[component][row]
-    }
+
+    /*
+    public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        
+        let titleAttributes = [
+            NSFontAttributeName: UIFont(name:"American Typewriter", size: 25)!,
+            NSForegroundColorAttributeName: UIColor.red
+        ] as [String: Any]
     
+        return NSAttributedString(string: pickerData[component][row], attributes: titleAttributes)
+    }
+    */
+    
+    public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        
+        var pickerLabel = view as? UILabel
+        
+        if (pickerLabel == nil) {
+            pickerLabel = UILabel()
+
+            if let goodLabel = label {
+                print("custom label")
+                pickerLabel = goodLabel
+                //pickerLabel?.textAlignment = goodLabel.textAlignment
+                //pickerLabel?.font = goodLabel.font
+            } else {
+                pickerLabel?.textAlignment = .center
+                pickerLabel?.font = UIFont.systemFont(ofSize: self.DEFAULT_FONT_SIZE)
+            }
+        }
+        
+        pickerLabel?.text = pickerData[component][row]
+        
+        return pickerLabel!
+    }
+
+ 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.pickerSelection[component] = pickerData[component][row]
     }
