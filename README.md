@@ -5,7 +5,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 
 ## About
-A simple picker view with animations that is rotation aware. The more string arrays you pass the more picker components you'll get. You can set custom label or use the default.
+McPicker is a UIPickerView replacement with animations and rotation ready. The more string arrays you pass the more picker components you'll get. You can set custom label or use the default.
 
 ## Usage
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
