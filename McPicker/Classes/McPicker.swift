@@ -9,12 +9,25 @@
 import UIKit
 
 open class McPicker: UIView {
-    
-    enum AnimationDirection {
-        case `in`, out
-    }
-    
+
+    open var fontSize:CGFloat = 25.0
     open var label:UILabel?
+    open var toolBarButtonsColor:UIColor? {
+        didSet {
+            cancelBarButton.tintColor = toolBarButtonsColor
+            doneBarButton.tintColor = toolBarButtonsColor
+        }
+    }
+    open var toolBarDoneButtonColor:UIColor? {
+        didSet {
+            doneBarButton.tintColor = toolBarDoneButtonColor
+        }
+    }
+    open var toolBarCancelButtonColor:UIColor? {
+        didSet {
+            cancelBarButton.tintColor = toolBarCancelButtonColor
+        }
+    }
     
     fileprivate var pickerSelection:[Int:String] = [:]
     fileprivate var pickerData:[[String]] = []
@@ -22,6 +35,10 @@ open class McPicker: UIView {
         get {
             return pickerData.count
         }
+    }
+    
+    private enum AnimationDirection {
+        case `in`, out
     }
     private var picker:UIPickerView = UIPickerView()
     private var toolbar:UIToolbar = UIToolbar()
@@ -41,7 +58,6 @@ open class McPicker: UIView {
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
     private let ANIMATION_SPEED = 0.25
-    fileprivate let DEFAULT_FONT_SIZE:CGFloat = 25.0
 
     private var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
     private var cancelHandler:() -> Void = {_ in }
@@ -59,26 +75,6 @@ open class McPicker: UIView {
     
     private override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    private func setup() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
-        
-        setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
-        
-        self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
-        backgroundView.backgroundColor = UIColor.white
-        
-        picker.delegate = self
-        picker.dataSource = self
-        
-        sizeViews()
-        
-        // Default selection to first item per component
-        //
-        for (index, element) in pickerData.enumerated() {
-            pickerSelection[index] = element.first
-        }
     }
 
     open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
@@ -103,16 +99,6 @@ open class McPicker: UIView {
         toolbar.items = items
     }
     
-    func done() {
-        animateViews(direction: .out)
-        self.doneHandler(self.pickerSelection)
-    }
-    
-    func cancel() {
-        animateViews(direction: .out)
-        self.cancelHandler()
-    }
-    
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         
@@ -127,8 +113,39 @@ open class McPicker: UIView {
                                                       object: nil)
         }
     }
+    
+    
+    private func setup() {
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
+        
+        setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
+        
+        self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
+        backgroundView.backgroundColor = UIColor.white
+        
+        picker.delegate = self
+        picker.dataSource = self
+        
+        sizeViews()
+        
+        // Default selection to first item per component
+        //
+        for (index, element) in pickerData.enumerated() {
+            pickerSelection[index] = element.first
+        }
+    }
+    
+    @objc private func done() {
+        animateViews(direction: .out)
+        self.doneHandler(self.pickerSelection)
+    }
+    
+    @objc private func cancel() {
+        animateViews(direction: .out)
+        self.cancelHandler()
+    }
 
-    func animateViews(direction:AnimationDirection){
+    private func animateViews(direction:AnimationDirection){
         
         var backgroundFrame = backgroundView.frame
 
@@ -169,7 +186,7 @@ open class McPicker: UIView {
         }
     }
 
-    func sizeViews() {
+    @objc private func sizeViews() {
         self.frame = CGRect(x: 0,
                             y: 0,
                             width: self.topViewController.view.bounds.size.width,
@@ -217,7 +234,7 @@ extension McPicker : UIPickerViewDelegate {
                 pickerLabel?.numberOfLines = goodLabel.numberOfLines
             } else {
                 pickerLabel?.textAlignment = .center
-                pickerLabel?.font = UIFont.systemFont(ofSize: self.DEFAULT_FONT_SIZE)
+                pickerLabel?.font = UIFont.systemFont(ofSize: self.fontSize)
             }
         }
         
