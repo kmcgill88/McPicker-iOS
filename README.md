@@ -4,15 +4,41 @@
 [![License](https://img.shields.io/cocoapods/l/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+## About
+A simple picker view with animations that is rotation aware. The more string arrays you pass the more picker components you'll get. You can set custom label or use the default.
 
 ## Usage
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+![](https://media.giphy.com/media/3o7btPtqG1YMn2fP5S/giphy.gif)
+
+#### Short Syntax
 ```swift
 McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]], doneHandler: { selections in
     if let name = selections[0] {
         self.label.text = name
+    }
+})
+```
+#### Customization
+```swift
+let customLabel = UILabel()
+customLabel.textAlignment = .center
+customLabel.textColor = UIColor.red
+customLabel.font = UIFont(name:"American Typewriter", size: 30)!
+
+let data:[[String]] = [
+    ["Sir", "Mr", "Mrs", "Miss"],
+    ["Kevin", "Lauren", "Kibby", "Stella"]
+]
+
+let picker = McPicker(data:data)
+picker.label = customLabel // Set your custom label
+picker.toolBarButtonsColor = UIColor.red
+picker.show(doneHandler: { selections in
+
+    if let prefix = selections[0], let name = selections[1] {
+        self.label.text = "\(prefix) \(name)"
     }
 })
 ```
