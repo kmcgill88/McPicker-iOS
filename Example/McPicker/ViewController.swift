@@ -56,22 +56,20 @@ class ViewController: UIViewController {
     
     @IBAction func styledPicker(_ sender: Any) {
 
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = UIColor.green
-        label.font = UIFont(name:"American Typewriter", size: 25)!
-        label.backgroundColor = UIColor.blue
-        
+        let customLabel = UILabel()
+        customLabel.textAlignment = .center
+        customLabel.textColor = UIColor.green
+        customLabel.font = UIFont(name:"American Typewriter", size: 30)!
+
         let data:[[String]] = [
+            ["Sir", "Mr", "Mrs", "Miss"],
             ["Kevin", "Lauren", "Kibby", "Stella"]
         ]
 
         let picker = McPicker(data:data)
-        picker.label = label
+        picker.label = customLabel // Set your custom label
         picker.show(doneHandler: { selections in
             
-            // Selection(s) Made
-            //
             if let prefix = selections[0], let name = selections[1] {
                 self.label.text = "\(prefix) \(name)"
             }

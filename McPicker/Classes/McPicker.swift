@@ -202,19 +202,6 @@ extension McPicker : UIPickerViewDataSource {
 
 
 extension McPicker : UIPickerViewDelegate {
-
-    /*
-    public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        let titleAttributes = [
-            NSFontAttributeName: UIFont(name:"American Typewriter", size: 25)!,
-            NSForegroundColorAttributeName: UIColor.red
-        ] as [String: Any]
-    
-        return NSAttributedString(string: pickerData[component][row], attributes: titleAttributes)
-    }
-    */
-    
     public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         var pickerLabel = view as? UILabel
@@ -223,10 +210,11 @@ extension McPicker : UIPickerViewDelegate {
             pickerLabel = UILabel()
 
             if let goodLabel = label {
-                print("custom label")
-                pickerLabel = goodLabel
-                //pickerLabel?.textAlignment = goodLabel.textAlignment
-                //pickerLabel?.font = goodLabel.font
+                pickerLabel?.textAlignment = goodLabel.textAlignment
+                pickerLabel?.font = goodLabel.font
+                pickerLabel?.textColor = goodLabel.textColor
+                pickerLabel?.backgroundColor = goodLabel.backgroundColor
+                pickerLabel?.numberOfLines = goodLabel.numberOfLines
             } else {
                 pickerLabel?.textAlignment = .center
                 pickerLabel?.font = UIFont.systemFont(ofSize: self.DEFAULT_FONT_SIZE)
@@ -238,7 +226,6 @@ extension McPicker : UIPickerViewDelegate {
         return pickerLabel!
     }
 
- 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.pickerSelection[component] = pickerData[component][row]
     }
