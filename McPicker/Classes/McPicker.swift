@@ -48,9 +48,9 @@ open class McPicker: UIView {
     private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
-    private var topViewController:UIViewController {
+    private var appWindow:UIWindow {
         get {
-            return UIApplication.topViewController()!
+            return UIApplication.shared.keyWindow!
         }
     }
     
@@ -156,7 +156,7 @@ open class McPicker: UIView {
             
             // Start picker off the bottom of the screen
             //
-            backgroundFrame.origin.y = self.topViewController.view.bounds.size.height
+            backgroundFrame.origin.y = self.appWindow.bounds.size.height
             backgroundView.frame = backgroundFrame
             
             // Add views
@@ -164,13 +164,13 @@ open class McPicker: UIView {
             backgroundView.addSubview(picker)
             backgroundView.addSubview(toolbar)
             self.addSubview(backgroundView)
-            topViewController.view.addSubview(self)
+            appWindow.addSubview(self)
             
             // Animate things on screen
             //
             UIView.animate(withDuration: ANIMATION_SPEED, animations: {
                 self.backgroundColor = UIColor.black.withAlphaComponent(self.BACKGROUND_ALPHA)
-                backgroundFrame.origin.y = self.topViewController.view.bounds.size.height - self.backgroundView.bounds.height
+                backgroundFrame.origin.y = self.appWindow.bounds.size.height - self.backgroundView.bounds.height
                 self.backgroundView.frame = backgroundFrame
             })
         } else {
@@ -178,7 +178,7 @@ open class McPicker: UIView {
             //
             UIView.animate(withDuration: ANIMATION_SPEED, animations: {
                 self.backgroundColor = UIColor.black.withAlphaComponent(0)
-                backgroundFrame.origin.y = self.topViewController.view.bounds.size.height
+                backgroundFrame.origin.y = self.appWindow.bounds.size.height
                 self.backgroundView.frame = backgroundFrame
             }, completion: { completed in
                 self.removeFromSuperview()
@@ -189,8 +189,8 @@ open class McPicker: UIView {
     @objc private func sizeViews() {
         self.frame = CGRect(x: 0,
                             y: 0,
-                            width: self.topViewController.view.bounds.size.width,
-                            height: self.topViewController.view.bounds.size.height)
+                            width: self.appWindow.bounds.size.width,
+                            height: self.appWindow.bounds.size.height)
         backgroundView.frame = CGRect(x: 0,
                                       y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
                                       width: self.bounds.size.width,
@@ -245,23 +245,5 @@ extension McPicker : UIPickerViewDelegate {
 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.pickerSelection[component] = pickerData[component][row]
-    }
-}
-
-
-extension UIApplication {
-    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
-        }
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
-            }
-        }
-        if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
-        }
-        return controller
     }
 }
