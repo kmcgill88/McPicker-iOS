@@ -28,11 +28,6 @@ open class McPicker: UIView {
             cancelBarButton.tintColor = toolBarCancelButtonColor
         }
     }
-//    open override var backgroundColor: UIColor? {
-//        didSet {
-//            pickerBackgroundColor = self.backgroundColor
-//        }
-//    }
     open var toolbarBarTintColor:UIColor? {
         didSet {
             toolbar.barTintColor = toolbarBarTintColor
