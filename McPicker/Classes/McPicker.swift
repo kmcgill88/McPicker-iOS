@@ -47,6 +47,13 @@ open class McPicker: UIView {
     private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
     private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    private var fixedSpace: UIBarButtonItem {
+        get {
+            let fixedSpaceBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+            fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * 0.02
+            return fixedSpaceBarButtonItem
+        }
+    }
     
     private var appWindow:UIWindow {
         get {
@@ -118,7 +125,7 @@ open class McPicker: UIView {
     private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
         
-        setToolbarItems(items: [cancelBarButton, flexibleSpace, doneBarButton])
+        setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
         
         self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
         backgroundView.backgroundColor = UIColor.white
