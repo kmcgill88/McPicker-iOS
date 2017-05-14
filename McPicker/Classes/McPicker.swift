@@ -12,20 +12,30 @@ open class McPicker: UIView {
 
     open var fontSize:CGFloat = 25.0
     open var label:UILabel?
-    open var toolBarButtonsColor:UIColor? {
+    open var toolbarButtonsColor:UIColor? {
         didSet {
-            cancelBarButton.tintColor = toolBarButtonsColor
-            doneBarButton.tintColor = toolBarButtonsColor
+            cancelBarButton.tintColor = toolbarButtonsColor
+            doneBarButton.tintColor = toolbarButtonsColor
         }
     }
-    open var toolBarDoneButtonColor:UIColor? {
+    open var toolbarDoneButtonColor:UIColor? {
         didSet {
-            doneBarButton.tintColor = toolBarDoneButtonColor
+            doneBarButton.tintColor = toolbarDoneButtonColor
         }
     }
-    open var toolBarCancelButtonColor:UIColor? {
+    open var toolbarCancelButtonColor:UIColor? {
         didSet {
-            cancelBarButton.tintColor = toolBarCancelButtonColor
+            cancelBarButton.tintColor = toolbarCancelButtonColor
+        }
+    }
+    open var toolbarBarTintColor:UIColor? {
+        didSet {
+            toolbar.barTintColor = toolbarBarTintColor
+        }
+    }
+    open var pickerBackgroundColor:UIColor? {
+        didSet {
+            picker.backgroundColor = pickerBackgroundColor
         }
     }
     

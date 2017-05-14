@@ -34,7 +34,9 @@ let data:[[String]] = [
 
 let picker = McPicker(data:data)
 picker.label = customLabel // Set your custom label
-picker.toolBarButtonsColor = UIColor.red
+picker.toolBarButtonsColor = .white
+picker.toolbarBarTintColor = .darkGray
+picker.pickerBackgroundColor = .gray
 picker.show(doneHandler: { selections in
 
     if let prefix = selections[0], let name = selections[1] {
