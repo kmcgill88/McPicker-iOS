@@ -68,7 +68,7 @@ class ViewController: UIViewController {
 
         let picker = McPicker(data:data)
         picker.label = customLabel // Set your custom label
-        picker.toolBarButtonsColor = .white
+        picker.toolbarButtonsColor = .white
         picker.toolbarBarTintColor = .darkGray
         picker.pickerBackgroundColor = .gray
         
@@ -78,7 +78,5 @@ class ViewController: UIViewController {
                 self.label.text = "\(prefix) \(name)"
             }
         })
-        
     }
-    
 }
