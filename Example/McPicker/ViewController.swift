@@ -58,7 +58,7 @@ class ViewController: UIViewController {
 
         let customLabel = UILabel()
         customLabel.textAlignment = .center
-        customLabel.textColor = UIColor.white
+        customLabel.textColor = .white
         customLabel.font = UIFont(name:"American Typewriter", size: 30)!
 
         let data:[[String]] = [
@@ -68,6 +68,7 @@ class ViewController: UIViewController {
 
         let picker = McPicker(data:data)
         picker.label = customLabel // Set your custom label
+        picker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
         picker.toolbarButtonsColor = .white
         picker.toolbarBarTintColor = .darkGray
         picker.pickerBackgroundColor = .gray
