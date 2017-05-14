@@ -68,9 +68,9 @@ class ViewController: UIViewController {
 
         let picker = McPicker(data:data)
         picker.label = customLabel // Set your custom label
-        picker.toolBarButtonsColor = .blue
-        picker.toolbarBarTintColor = .green
-        picker.pickerBackgroundColor = .red
+        picker.toolBarButtonsColor = .white
+        picker.toolbarBarTintColor = .darkGray
+        picker.pickerBackgroundColor = .gray
         
         picker.show(doneHandler: { selections in
             
