@@ -34,6 +34,7 @@ let data:[[String]] = [
 
 let picker = McPicker(data:data)
 picker.label = customLabel // Set your custom label
+picker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
 picker.toolBarButtonsColor = .white
 picker.toolbarBarTintColor = .darkGray
 picker.pickerBackgroundColor = .gray

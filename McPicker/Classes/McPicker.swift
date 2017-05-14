@@ -33,6 +33,13 @@ open class McPicker: UIView {
             toolbar.barTintColor = toolbarBarTintColor
         }
     }
+    open var toolbarItemsFont: UIFont? {
+        didSet {
+            for item in toolbar.items ?? [] {
+                item.setTitleTextAttributes([NSFontAttributeName: toolbarItemsFont!], for: .normal)
+            }
+        }
+    }
     open var pickerBackgroundColor:UIColor? {
         didSet {
             picker.backgroundColor = pickerBackgroundColor
