@@ -21,13 +21,11 @@
 import UIKit
 import McPicker
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var label: UILabel!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
+    @IBOutlet weak var popoverButton: UIButton!
+
     
     @IBAction func showPressed(_ sender: Any) {
         
@@ -94,12 +92,25 @@ class ViewController: UIViewController {
     }
     
     @IBAction func popOverPicker(_ sender: Any) {
+        let vc = UIViewController()
+        vc.modalPresentationStyle = UIModalPresentationStyle.popover
         
+        let popover = vc.popoverPresentationController
         
+        vc.preferredContentSize = CGSize(width:100, height:100)
+        popover?.delegate = self
+        popover?.sourceView = popoverButton
+        popover?.sourceRect = CGRect(x: 0, y: 0, width: 100, height: 100)
         
-        
-        
+        self.present(vc, animated: true, completion: nil)
     }
     
+    func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+        print("popoverPresentationControllerDidDismissPopover")
+    }
     
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        // This *forces* a popover to be displayed on the iPhone
+        return .none
+    }
 }

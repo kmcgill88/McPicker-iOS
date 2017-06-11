@@ -18,7 +18,6 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //THE SOFTWARE.
 
-
 import UIKit
 
 open class McPicker: UIView {
@@ -59,6 +58,7 @@ open class McPicker: UIView {
         }
     }
     
+    
     fileprivate var pickerSelection:[Int:String] = [:]
     fileprivate var pickerData:[[String]] = []
     fileprivate var numberOfComponents:Int {
@@ -66,6 +66,7 @@ open class McPicker: UIView {
             return pickerData.count
         }
     }
+    
     
     private enum AnimationDirection {
         case `in`, out
@@ -84,13 +85,11 @@ open class McPicker: UIView {
             return fixedSpaceBarButtonItem
         }
     }
-    
     private var appWindow:UIWindow {
         get {
             return UIApplication.shared.keyWindow!
         }
     }
-    
     private let PICKER_HEIGHT:CGFloat = 216.0
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
@@ -151,7 +150,6 @@ open class McPicker: UIView {
         }
     }
     
-    
     private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
         
@@ -182,6 +180,25 @@ open class McPicker: UIView {
         self.cancelHandler()
     }
 
+    @objc private func sizeViews() {
+        self.frame = CGRect(x: 0,
+                            y: 0,
+                            width: self.appWindow.bounds.size.width,
+                            height: self.appWindow.bounds.size.height)
+        backgroundView.frame = CGRect(x: 0,
+                                      y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
+                                      width: self.bounds.size.width,
+                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+        toolbar.frame = CGRect(x: 0,
+                               y: 0,
+                               width: backgroundView.bounds.size.width,
+                               height: TOOLBAR_HEIGHT)
+        picker.frame = CGRect(x: 0,
+                              y: toolbar.bounds.size.height,
+                              width: backgroundView.bounds.size.width,
+                              height: PICKER_HEIGHT)
+    }
+    
     private func animateViews(direction:AnimationDirection){
         
         var backgroundFrame = backgroundView.frame
@@ -221,25 +238,6 @@ open class McPicker: UIView {
                 self.removeFromSuperview()
             })
         }
-    }
-
-    @objc private func sizeViews() {
-        self.frame = CGRect(x: 0,
-                            y: 0,
-                            width: self.appWindow.bounds.size.width,
-                            height: self.appWindow.bounds.size.height)
-        backgroundView.frame = CGRect(x: 0,
-                                      y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
-                                      width: self.bounds.size.width,
-                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
-        toolbar.frame = CGRect(x: 0,
-                               y: 0,
-                               width: backgroundView.bounds.size.width,
-                               height: TOOLBAR_HEIGHT)
-        picker.frame = CGRect(x: 0,
-                              y: toolbar.bounds.size.height,
-                              width: backgroundView.bounds.size.width,
-                              height: PICKER_HEIGHT)
     }
 }
 
