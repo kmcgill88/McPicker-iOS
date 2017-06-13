@@ -21,31 +21,35 @@
  */
 
 import UIKit
-import XCTest
-import McPicker
 
-class Tests: XCTestCase {
+internal class McPickerPopoverViewController: UIViewController {
+
+    var mcPicker:McPicker?
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    internal convenience init(mcPicker:McPicker) {
+        self.init(nibName: nil, bundle: nil)
+        self.mcPicker = mcPicker
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure() {
-            // Put the code you want to measure the time of here.
+    internal required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        guard self.mcPicker == nil else {
+            fatalError("McPicker cannot be nil")
         }
     }
     
+    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+        guard self.mcPicker == nil else {
+            fatalError("McPicker cannot be nil")
+        }
+    }
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
 }
