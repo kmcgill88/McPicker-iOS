@@ -94,17 +94,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func popOverPicker(_ sender: Any) {
-        let vc = UIViewController()
-        vc.modalPresentationStyle = UIModalPresentationStyle.popover
-        
-        let popover = vc.popoverPresentationController
-        
-        vc.preferredContentSize = CGSize(width:100, height:100)
-        popover?.delegate = self
-        popover?.sourceView = popoverButton
-        popover?.sourceRect = CGRect(x: 0, y: 0, width: 100, height: 100)
-        
-        self.present(vc, animated: true, completion: nil)
+
+        //TODO: implement
     }
 
 }

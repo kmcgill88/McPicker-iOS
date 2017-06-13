@@ -121,6 +121,25 @@ open class McPicker: UIView {
         animateViews(direction: .in)
     }
     
+    public func showAsPopover(fromViewController:UIViewController, sourceView:UIView, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
+        self.doneHandler = doneHandler
+        self.cancelHandler = cancelHandler
+        
+        let mcPickerPopoverViewController = McPickerPopoverViewController(mcPicker:self)
+        mcPickerPopoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+        
+        let popover = mcPickerPopoverViewController.popoverPresentationController
+        
+        mcPickerPopoverViewController.preferredContentSize = CGSize(width:100, height:100)
+        popover?.delegate = self
+        
+//        popover?.barButtonItem
+        popover?.sourceView = sourceView
+        popover?.sourceRect = CGRect(x: 0, y: 0, width: 100, height: 100)
+        
+        fromViewController.present(mcPickerPopoverViewController, animated: true, completion: nil)
+    }
+    
     open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void){
         show(cancelHandler: {}, doneHandler: doneHandler)
     }
