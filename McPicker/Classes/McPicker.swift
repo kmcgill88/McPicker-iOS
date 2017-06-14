@@ -26,37 +26,46 @@ open class McPicker: UIView {
 
     open var fontSize:CGFloat = 25.0
     open var label:UILabel?
-    open var toolbarButtonsColor:UIColor? {
+    
+    
+    public var toolbarButtonsColor:UIColor? {
         didSet {
             cancelBarButton.tintColor = toolbarButtonsColor
             doneBarButton.tintColor = toolbarButtonsColor
         }
     }
-    open var toolbarDoneButtonColor:UIColor? {
+    public var toolbarDoneButtonColor:UIColor? {
         didSet {
             doneBarButton.tintColor = toolbarDoneButtonColor
         }
     }
-    open var toolbarCancelButtonColor:UIColor? {
+    public var toolbarCancelButtonColor:UIColor? {
         didSet {
             cancelBarButton.tintColor = toolbarCancelButtonColor
         }
     }
-    open var toolbarBarTintColor:UIColor? {
+    public var toolbarBarTintColor:UIColor? {
         didSet {
             toolbar.barTintColor = toolbarBarTintColor
         }
     }
-    open var toolbarItemsFont: UIFont? {
+    public var toolbarItemsFont: UIFont? {
         didSet {
             for item in toolbar.items ?? [] {
                 item.setTitleTextAttributes([NSFontAttributeName: toolbarItemsFont!], for: .normal)
             }
         }
     }
-    open var pickerBackgroundColor:UIColor? {
+    public var pickerBackgroundColor:UIColor? {
         didSet {
             picker.backgroundColor = pickerBackgroundColor
+        }
+    }
+    
+    
+    internal var popOverContentSize:CGSize {
+        get {
+            return CGSize(width: PICKER_HEIGHT + TOOLBAR_HEIGHT, height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
         }
     }
     
@@ -89,7 +98,9 @@ open class McPicker: UIView {
         }
     }
     private var appWindow:UIWindow {
-        get { return UIApplication.shared.keyWindow! }
+        get {
+            return UIApplication.shared.keyWindow!
+        }
     }
     private let PICKER_HEIGHT:CGFloat = 216.0
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
@@ -184,12 +195,12 @@ open class McPicker: UIView {
         if isPopoverMode {
             self.frame = CGRect(x: 0,
                                 y: 0,
-                                width: 200,
-                                height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+                                width: popOverContentSize.width,
+                                height: popOverContentSize.height)
             backgroundView.frame = CGRect(x: 0,
                                           y: 0,
-                                          width: 200,
-                                          height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+                                          width: popOverContentSize.width,
+                                          height: popOverContentSize.height)
         } else {
             self.frame = CGRect(x: 0,
                                 y: 0,
@@ -239,17 +250,15 @@ open class McPicker: UIView {
     
     @objc private func done() {
         self.doneHandler(self.pickerSelection)
-        
-        if isPopoverMode {
-            mcPickerPopoverViewController?.dismiss(animated: false, completion: nil)
-        } else {
-            animateViews(direction: .out)
-        }
+        self.dismissViews()
     }
     
     @objc private func cancel() {
         self.cancelHandler()
-       
+        self.dismissViews()
+    }
+    
+    private func dismissViews() {
         if isPopoverMode {
             mcPickerPopoverViewController?.dismiss(animated: false, completion: nil)
         } else {
@@ -347,6 +356,11 @@ extension McPicker : UIPopoverPresentationControllerDelegate {
     
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         // This *forces* a popover to be displayed on the iPhone
+        return .none
+    }
+    
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        // This *forces* a popover to be displayed on the iPhone X Plus
         return .none
     }
 }

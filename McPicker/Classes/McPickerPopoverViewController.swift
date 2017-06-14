@@ -39,15 +39,12 @@ internal class McPickerPopoverViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .red
-        
-        mcPicker?.sizeViews()
-        mcPicker?.addAllSubviews()
+        mcPicker!.sizeViews()
+        mcPicker!.addAllSubviews()
         self.view.addSubview(mcPicker!)
+        self.preferredContentSize = mcPicker!.popOverContentSize
     }
-
 }
