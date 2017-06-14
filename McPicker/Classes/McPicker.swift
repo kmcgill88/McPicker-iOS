@@ -123,19 +123,48 @@ open class McPicker: UIView {
     private override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
+    
+    
+    // MARK: Show
+    //
+    open class func show(data:[[String]], cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data:data).show(cancelHandler: cancelHandler, doneHandler: doneHandler)
+    }
+    
+    open class func show(data:[[String]], doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data:data).show(cancelHandler: {}, doneHandler: doneHandler)
+    }
+    
+    open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        show(cancelHandler: {}, doneHandler: doneHandler)
+    }
+    
     open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         animateViews(direction: .in)
     }
+
     
-    public func showAsPopover(fromViewController:UIViewController, sourceView:UIView, sourceRect:CGRect? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
-        
-        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:nil, cancelHandler: cancelHandler, doneHandler: doneHandler)
+    // MARK: Show As Popover
+    //
+    open class func showAsPopover(data:[[String]], fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void,doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data: data).showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: cancelHandler, doneHandler: doneHandler)
     }
     
-    internal func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+    open class func showAsPopover(data:[[String]], fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        McPicker(data: data).showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: {}, doneHandler: doneHandler)
+    }
+    
+    open func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:nil, cancelHandler: {}, doneHandler: doneHandler)
+    }
+
+    open func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        
+        if sourceView == nil && barButtonItem == nil {
+            fatalError("You must set at least 'sourceView' or 'barButtonItem'")
+        }
         
         self.isPopoverMode = true
         self.doneHandler = doneHandler
@@ -158,19 +187,8 @@ open class McPicker: UIView {
         
         fromViewController.present(mcPickerPopoverViewController!, animated: true, completion: nil)
     }
-    
-    open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
-        show(cancelHandler: {}, doneHandler: doneHandler)
-    }
-    
-    open class func show(data:[[String]], cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
-        McPicker(data:data).show(cancelHandler: cancelHandler, doneHandler: doneHandler)
-    }
-    
-    open class func show(data:[[String]], doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
-        McPicker(data:data).show(cancelHandler: {}, doneHandler: doneHandler)
-    }
-    
+
+
     open func setToolbarItems(items: [UIBarButtonItem]) {
         toolbar.items = items
     }
@@ -251,7 +269,7 @@ open class McPicker: UIView {
     
     private func dismissViews() {
         if isPopoverMode {
-            mcPickerPopoverViewController?.dismiss(animated: false, completion: nil)
+            mcPickerPopoverViewController?.dismiss(animated: true, completion: nil)
         } else {
             animateViews(direction: .out)
         }
