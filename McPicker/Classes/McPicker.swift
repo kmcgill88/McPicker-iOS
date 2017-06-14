@@ -192,26 +192,17 @@ open class McPicker: UIView {
     
     internal func sizeViews() {
         
-        if isPopoverMode {
-            self.frame = CGRect(x: 0,
-                                y: 0,
-                                width: popOverContentSize.width,
-                                height: popOverContentSize.height)
-            backgroundView.frame = CGRect(x: 0,
-                                          y: 0,
-                                          width: popOverContentSize.width,
-                                          height: popOverContentSize.height)
-        } else {
-            self.frame = CGRect(x: 0,
-                                y: 0,
-                                width: self.appWindow.bounds.size.width,
-                                height: self.appWindow.bounds.size.height)
-            backgroundView.frame = CGRect(x: 0,
-                                          y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
-                                          width: self.bounds.size.width,
-                                          height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
-        }
+        let size = isPopoverMode ? popOverContentSize : self.appWindow.bounds.size
+        self.frame = CGRect(x: 0,
+                            y: 0,
+                            width: size.width,
+                            height: size.height)
         
+        let backgroundViewY = isPopoverMode ? 0 : self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT)
+        backgroundView.frame = CGRect(x: 0,
+                                      y: backgroundViewY,
+                                      width: self.bounds.size.width,
+                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
         toolbar.frame = CGRect(x: 0,
                                y: 0,
                                width: backgroundView.bounds.size.width,
