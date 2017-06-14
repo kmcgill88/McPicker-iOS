@@ -157,7 +157,7 @@ open class McPicker: UIView {
     }
     
     open func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
-        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:nil, cancelHandler: {}, doneHandler: doneHandler)
+        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: {}, doneHandler: doneHandler)
     }
 
     open func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
