@@ -33,23 +33,21 @@ internal class McPickerPopoverViewController: UIViewController {
     
     internal required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        guard self.mcPicker == nil else {
-            fatalError("McPicker cannot be nil")
-        }
     }
     
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
-        guard self.mcPicker == nil else {
-            fatalError("McPicker cannot be nil")
-        }
     }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.view.backgroundColor = .red
+        
+        mcPicker?.sizeViews()
+        mcPicker?.addAllSubviews()
+        self.view.addSubview(mcPicker!)
     }
 
 }

@@ -61,6 +61,8 @@ open class McPicker: UIView {
     }
     
     
+    fileprivate var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
+    fileprivate var cancelHandler:() -> Void = {_ in }
     fileprivate var pickerSelection:[Int:String] = [:]
     fileprivate var pickerData:[[String]] = []
     fileprivate var numberOfComponents:Int {
@@ -73,10 +75,9 @@ open class McPicker: UIView {
     private enum AnimationDirection {
         case `in`, out
     }
-    private var picker:UIPickerView = UIPickerView()
-    private var toolbar:UIToolbar = UIToolbar()
+    private let picker:UIPickerView = UIPickerView()
+    private let toolbar:UIToolbar = UIToolbar()
     private let backgroundView:UIView = UIView()
-    
     private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
     private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -88,17 +89,14 @@ open class McPicker: UIView {
         }
     }
     private var appWindow:UIWindow {
-        get {
-            return UIApplication.shared.keyWindow!
-        }
+        get { return UIApplication.shared.keyWindow! }
     }
     private let PICKER_HEIGHT:CGFloat = 216.0
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
     private let ANIMATION_SPEED = 0.25
-
-    private var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
-    private var cancelHandler:() -> Void = {_ in }
+    private var isPopoverMode = false
+    private var mcPickerPopoverViewController:McPickerPopoverViewController?
 
     
     convenience public init(data:[[String]]) {
@@ -115,32 +113,42 @@ open class McPicker: UIView {
         super.init(frame: frame)
     }
 
-    open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
+    open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         animateViews(direction: .in)
     }
     
-    public func showAsPopover(fromViewController:UIViewController, sourceView:UIView, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void){
+    public func showAsPopover(fromViewController:UIViewController, sourceView:UIView, sourceRect:CGRect? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        
+        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:nil, cancelHandler: cancelHandler, doneHandler: doneHandler)
+    }
+    
+    internal func showAsPopover(fromViewController:UIViewController, sourceView:UIView? = nil, sourceRect:CGRect? = nil, barButtonItem:UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
+        
+        self.isPopoverMode = true
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         
-        let mcPickerPopoverViewController = McPickerPopoverViewController(mcPicker:self)
-        mcPickerPopoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+        mcPickerPopoverViewController = McPickerPopoverViewController(mcPicker:self)
+        mcPickerPopoverViewController?.modalPresentationStyle = UIModalPresentationStyle.popover
         
-        let popover = mcPickerPopoverViewController.popoverPresentationController
+        let popover = mcPickerPopoverViewController?.popoverPresentationController
         
-        mcPickerPopoverViewController.preferredContentSize = CGSize(width:100, height:100)
+        mcPickerPopoverViewController?.preferredContentSize = CGSize(width:200, height:200)
         popover?.delegate = self
         
-//        popover?.barButtonItem
-        popover?.sourceView = sourceView
-        popover?.sourceRect = CGRect(x: 0, y: 0, width: 100, height: 100)
+        if let sView = sourceView {
+            popover?.sourceView = sView
+            popover?.sourceRect = sourceRect ?? sView.bounds
+        } else {
+            popover?.barButtonItem = barButtonItem
+        }
         
-        fromViewController.present(mcPickerPopoverViewController, animated: true, completion: nil)
+        fromViewController.present(mcPickerPopoverViewController!, animated: true, completion: nil)
     }
     
-    open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void){
+    open func show(doneHandler:@escaping (_ selections:[Int:String]) -> Void) {
         show(cancelHandler: {}, doneHandler: doneHandler)
     }
     
@@ -171,6 +179,44 @@ open class McPicker: UIView {
         }
     }
     
+    internal func sizeViews() {
+        
+        if isPopoverMode {
+            self.frame = CGRect(x: 0,
+                                y: 0,
+                                width: 200,
+                                height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+            backgroundView.frame = CGRect(x: 0,
+                                          y: 0,
+                                          width: 200,
+                                          height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+        } else {
+            self.frame = CGRect(x: 0,
+                                y: 0,
+                                width: self.appWindow.bounds.size.width,
+                                height: self.appWindow.bounds.size.height)
+            backgroundView.frame = CGRect(x: 0,
+                                          y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
+                                          width: self.bounds.size.width,
+                                          height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+        }
+        
+        toolbar.frame = CGRect(x: 0,
+                               y: 0,
+                               width: backgroundView.bounds.size.width,
+                               height: TOOLBAR_HEIGHT)
+        picker.frame = CGRect(x: 0,
+                              y: toolbar.bounds.size.height,
+                              width: backgroundView.bounds.size.width,
+                              height: PICKER_HEIGHT)
+    }
+    
+    internal func addAllSubviews() {
+        backgroundView.addSubview(picker)
+        backgroundView.addSubview(toolbar)
+        self.addSubview(backgroundView)
+    }
+    
     private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
         
@@ -192,35 +238,26 @@ open class McPicker: UIView {
     }
     
     @objc private func done() {
-        animateViews(direction: .out)
         self.doneHandler(self.pickerSelection)
+        
+        if isPopoverMode {
+            mcPickerPopoverViewController?.dismiss(animated: false, completion: nil)
+        } else {
+            animateViews(direction: .out)
+        }
     }
     
     @objc private func cancel() {
-        animateViews(direction: .out)
         self.cancelHandler()
-    }
-
-    @objc private func sizeViews() {
-        self.frame = CGRect(x: 0,
-                            y: 0,
-                            width: self.appWindow.bounds.size.width,
-                            height: self.appWindow.bounds.size.height)
-        backgroundView.frame = CGRect(x: 0,
-                                      y: self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT),
-                                      width: self.bounds.size.width,
-                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
-        toolbar.frame = CGRect(x: 0,
-                               y: 0,
-                               width: backgroundView.bounds.size.width,
-                               height: TOOLBAR_HEIGHT)
-        picker.frame = CGRect(x: 0,
-                              y: toolbar.bounds.size.height,
-                              width: backgroundView.bounds.size.width,
-                              height: PICKER_HEIGHT)
+       
+        if isPopoverMode {
+            mcPickerPopoverViewController?.dismiss(animated: false, completion: nil)
+        } else {
+            animateViews(direction: .out)
+        }
     }
     
-    private func animateViews(direction:AnimationDirection){
+    private func animateViews(direction:AnimationDirection) {
         
         var backgroundFrame = backgroundView.frame
 
@@ -236,9 +273,7 @@ open class McPicker: UIView {
             
             // Add views
             //
-            backgroundView.addSubview(picker)
-            backgroundView.addSubview(toolbar)
-            self.addSubview(backgroundView)
+            addAllSubviews()
             appWindow.addSubview(self)
             
             // Animate things on screen
@@ -307,7 +342,7 @@ extension McPicker : UIPickerViewDelegate {
 extension McPicker : UIPopoverPresentationControllerDelegate {
     
     public func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-        print("popoverPresentationControllerDidDismissPopover")
+        self.cancelHandler()
     }
     
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {

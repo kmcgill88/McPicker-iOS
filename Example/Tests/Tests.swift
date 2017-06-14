@@ -22,7 +22,7 @@
 
 import UIKit
 import XCTest
-import McPicker
+@testable import McPicker
 
 class Tests: XCTestCase {
     

@@ -94,8 +94,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func popOverPicker(_ sender: Any) {
+        
+        let data:[[String]] = [
+            ["Kevin", "Lauren", "Kibby", "Stella"]
+        ]
+        let picker = McPicker(data:data)
 
-        //TODO: implement
+        picker.showAsPopover(fromViewController: self, sourceView: popoverButton, cancelHandler: { () -> Void in
+            print("Canceled Popover")
+        }, doneHandler: { (selections:[Int : String]) -> Void in
+            print("Done with Popover")
+            if let name = selections[0] {
+                self.label.text = name
+            }
+        })
+
     }
 
 }
