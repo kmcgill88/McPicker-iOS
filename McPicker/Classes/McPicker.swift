@@ -174,8 +174,6 @@ open class McPicker: UIView {
         mcPickerPopoverViewController?.modalPresentationStyle = UIModalPresentationStyle.popover
         
         let popover = mcPickerPopoverViewController?.popoverPresentationController
-        
-        mcPickerPopoverViewController?.preferredContentSize = CGSize(width:200, height:200)
         popover?.delegate = self
         
         if let sView = sourceView {
