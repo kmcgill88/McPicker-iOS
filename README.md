@@ -12,7 +12,7 @@ McPicker is a UIPickerView drop-in solution with animations that is rotation rea
 ## Usage
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![](http://mcgilldevtech.com/img/github/mcpicker/mcpicker-0.3.0.gif)
+![](http://mcgilldevtech.com/img/github/mcpicker/mcpicker-0.3.0-ios.gif)
 
 #### Short Syntax
 - Normal - (Slide up from bottom)
