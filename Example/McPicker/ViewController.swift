@@ -60,9 +60,7 @@ class ViewController: UIViewController {
         
         // Short hand
         //
-        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) { selections in
-            // Selection(s) Made
-            //
+        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections:[Int : String]) -> Void in
             if let name = selections[0] {
                 self.label.text = name
             }
@@ -92,7 +90,6 @@ class ViewController: UIViewController {
             // Show as Popover
             //
             mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections:[Int : String]) -> Void in
-                print("Done with Popover")
                 if let prefix = selections[0], let name = selections[1] {
                     self.label.text = "\(prefix) \(name)"
                 }
