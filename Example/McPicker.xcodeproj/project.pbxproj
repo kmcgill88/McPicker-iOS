@@ -172,6 +172,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				C47D12FBF936BCA4F2FC5DF5 /* [CP] Embed Pods Frameworks */,
 				973D169A1B9454CE644A8880 /* [CP] Copy Pods Resources */,
+				7218E36A1F0EA822003423A2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -278,6 +279,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-McPicker_Tests/Pods-McPicker_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		7218E36A1F0EA822003423A2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    cd ..; swiftlint;\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		786C2866CBD2DC4B77345BE8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

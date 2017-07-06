@@ -26,14 +26,11 @@ import McPicker
 class ViewController: UIViewController {
 
     @IBOutlet weak var label: UILabel!
-    
-    let data:[[String]] = [
+    let data: [[String]] = [
         ["Kevin", "Lauren", "Kibby", "Stella"]
     ]
 
-    
     @IBAction func showPressed(_ sender: Any) {
-        
 /*
         // Verbose Setup
         //
@@ -74,7 +71,7 @@ class ViewController: UIViewController {
         customLabel.textColor = .white
         customLabel.font = UIFont(name:"American Typewriter", size: 30)!
 
-        let data:[[String]] = [
+        let data: [[String]] = [
             ["Sir", "Mr", "Mrs", "Miss"],
             ["Kevin", "Lauren", "Kibby", "Stella"]
         ]
@@ -89,7 +86,7 @@ class ViewController: UIViewController {
         if let barButton = sender as? UIBarButtonItem {
             // Show as Popover
             //
-            mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections:[Int : String]) -> Void in
+            mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections: [Int : String]) -> Void in
                 if let prefix = selections[0], let name = selections[1] {
                     self.label.text = "\(prefix) \(name)"
                 }

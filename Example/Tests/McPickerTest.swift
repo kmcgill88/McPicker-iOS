@@ -24,26 +24,27 @@ import UIKit
 import XCTest
 @testable import McPicker
 
+// swiftlint:disable nesting
 class McPickerTest: XCTestCase {
 
-    let data:[[String]] = [
+    let data: [[String]] = [
         ["Bob", "Bill"]
     ]
-    
+
     func testInitDefaultOptionsAreSet() {
         // Given
         //
-        class TestMcPicker : McPicker {
+        class TestMcPicker: McPicker {
             var sizeViewsCalled = false
             override func sizeViews() {
                 sizeViewsCalled = true
             }
         }
-        
+
         // When
         //
         let mcPicker = TestMcPicker(data:data)
-        
+
         // Then
         //
         XCTAssertEqual(data.count, mcPicker.pickerData.count)
@@ -60,7 +61,8 @@ class McPickerTest: XCTestCase {
 
         XCTAssertEqual(mcPicker.backgroundColor, UIColor.black.withAlphaComponent(0.75))
         XCTAssertEqual(mcPicker.backgroundView.backgroundColor, UIColor.white)
-        
+
+        // swiftlint:disable force_cast
         XCTAssertEqual(mcPicker, mcPicker.picker.delegate as! McPicker)
         XCTAssertEqual(mcPicker, mcPicker.picker.dataSource as! McPicker)
 
@@ -70,49 +72,49 @@ class McPickerTest: XCTestCase {
         XCTAssertEqual(true, mcPicker.sizeViewsCalled)
 
         XCTAssertEqual(data.first?.first, mcPicker.pickerSelection[0])
-        
+
         XCTAssertNil(mcPicker.mcPickerPopoverViewController)
     }
-    
+
     func testSetToolbarButtonsColorSetsCancelAndDone() {
         // Given
         //
         let mcPicker = McPicker(data: data)
-        
+
         // When
         //
         mcPicker.toolbarButtonsColor = UIColor.purple
-        
+
         // Then
         //
         XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
         XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
     }
-    
+
     func testSetToolbarDoneButtonsColorSetsDone() {
         // Given
         //
         let mcPicker = McPicker(data: data)
-        
+
         // When
         //
         mcPicker.toolbarDoneButtonColor = UIColor.purple
-        
+
         // Then
         //
         XCTAssertNil(mcPicker.cancelBarButton.tintColor)
         XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
     }
-    
+
     func testSetToolbarCancelButtonsColorSetsCancel() {
         // Given
         //
         let mcPicker = McPicker(data: data)
-        
+
         // When
         //
         mcPicker.toolbarCancelButtonColor = UIColor.purple
-        
+
         // Then
         //
         XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
@@ -120,13 +122,11 @@ class McPickerTest: XCTestCase {
     }
 
     func testInitShowAsPopover() {
-        class TestVC : UIViewController {
+        class TestVC: UIViewController {
             var presentWasCalled = false
             override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
                 presentWasCalled = true
             }
         }
-        // TODO: Finish this thought
     }
-    
 }

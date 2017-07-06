@@ -24,7 +24,7 @@ import UIKit
 
 internal class McPickerPopoverViewController: UIViewController {
 
-    var mcPicker:McPicker?
+    var mcPicker: McPicker?
     
     internal convenience init(mcPicker:McPicker) {
         self.init(nibName: nil, bundle: nil)
