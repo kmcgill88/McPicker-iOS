@@ -1,5 +1,5 @@
 # McPicker
-
+[![Build Status](https://travis-ci.org/kmcgill88/McPicker-iOS.svg?branch=master)](https://travis-ci.org/kmcgill88/McPicker-iOS)
 [![Version](https://img.shields.io/cocoapods/v/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![License](https://img.shields.io/cocoapods/l/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
