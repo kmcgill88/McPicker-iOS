@@ -68,13 +68,13 @@ open class McPicker: UIView {
             return CGSize(width: PICKER_HEIGHT + TOOLBAR_HEIGHT, height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
         }
     }
-    
+
     
     fileprivate var doneHandler:(_ selections:[Int:String]) -> Void = {_ in }
     fileprivate var cancelHandler:() -> Void = {_ in }
-    fileprivate var pickerSelection:[Int:String] = [:]
-    fileprivate var pickerData:[[String]] = []
-    fileprivate var numberOfComponents:Int {
+    internal var pickerSelection:[Int:String] = [:]
+    internal var pickerData:[[String]] = []
+    internal var numberOfComponents:Int {
         get {
             return pickerData.count
         }
@@ -85,8 +85,8 @@ open class McPicker: UIView {
         case `in`, out
     }
     private let picker:UIPickerView = UIPickerView()
-    private let toolbar:UIToolbar = UIToolbar()
-    private let backgroundView:UIView = UIView()
+    internal let backgroundView:UIView = UIView()
+    internal let toolbar:UIToolbar = UIToolbar()
     private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
     private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -99,7 +99,11 @@ open class McPicker: UIView {
     }
     private var appWindow:UIWindow {
         get {
-            return UIApplication.shared.keyWindow!
+            guard let window = UIApplication.shared.keyWindow else {
+                debugPrint("KeyWindow not set. Returning a defailt window for unit testing.")
+                return UIWindow()
+            }
+            return window
         }
     }
     private let PICKER_HEIGHT:CGFloat = 216.0
