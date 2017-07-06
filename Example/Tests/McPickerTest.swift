@@ -26,23 +26,60 @@ import XCTest
 
 class McPickerTest: XCTestCase {
 
-    func testDefaultMcPickerOptionsAreSet() {
+    func testInitDefaultOptionsAreSet() {
         // Given
+        //
         let data:[[String]] = [
             ["Bob", "Bill"]
         ]
+        class TestMcPicker : McPicker {
+            var sizeViewsCalled = false
+            override func sizeViews() {
+                sizeViewsCalled = true
+            }
+        }
         
         // When
-        let mcPicker = McPicker(data:data)
+        //
+        let mcPicker = TestMcPicker(data:data)
         
         // Then
+        //
         XCTAssertEqual(data.count, mcPicker.pickerData.count)
         XCTAssertEqual(data[0][0], mcPicker.pickerData[0][0])
         XCTAssertEqual(data[0][1], mcPicker.pickerData[0][1])
 
         XCTAssertEqual(1, mcPicker.gestureRecognizers?.count)
         XCTAssertEqual(5, mcPicker.toolbar.items?.count)
+        XCTAssertEqual(mcPicker.fixedSpace.style, mcPicker.toolbar.items?[0].style)
+        XCTAssertEqual(mcPicker.cancelBarButton, mcPicker.toolbar.items?[1])
+        XCTAssertEqual(mcPicker.flexibleSpace.style, mcPicker.toolbar.items?[2].style)
+        XCTAssertEqual(mcPicker.doneBarButton, mcPicker.toolbar.items?[3])
+        XCTAssertEqual(mcPicker.fixedSpace.style, mcPicker.toolbar.items?[0].style)
+
+        XCTAssertEqual(mcPicker.backgroundColor, UIColor.black.withAlphaComponent(0.75))
+        XCTAssertEqual(mcPicker.backgroundView.backgroundColor, UIColor.white)
+        
+        XCTAssertEqual(mcPicker, mcPicker.picker.delegate as! McPicker)
+        XCTAssertEqual(mcPicker, mcPicker.picker.dataSource as! McPicker)
+
+        XCTAssertEqual(data.count, mcPicker.picker.numberOfComponents)
+        XCTAssertEqual(data.count, mcPicker.numberOfComponents)
+
+        XCTAssertEqual(true, mcPicker.sizeViewsCalled)
+
+        XCTAssertEqual(data.first?.first, mcPicker.pickerSelection[0])
+        
+        XCTAssertNil(mcPicker.mcPickerPopoverViewController)
     }
 
+    func testInitShowAsPopover() {
+        class TestVC : UIViewController {
+            var presentWasCalled = false
+            override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+                presentWasCalled = true
+            }
+        }
+    }
     
 }

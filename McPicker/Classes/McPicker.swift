@@ -84,13 +84,13 @@ open class McPicker: UIView {
     private enum AnimationDirection {
         case `in`, out
     }
-    private let picker:UIPickerView = UIPickerView()
+    internal let picker:UIPickerView = UIPickerView()
     internal let backgroundView:UIView = UIView()
     internal let toolbar:UIToolbar = UIToolbar()
-    private let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
-    private let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-    private let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    private var fixedSpace: UIBarButtonItem {
+    internal let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
+    internal let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+    internal let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    internal var fixedSpace: UIBarButtonItem {
         get {
             let fixedSpaceBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
             fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * 0.02
@@ -100,7 +100,7 @@ open class McPicker: UIView {
     private var appWindow:UIWindow {
         get {
             guard let window = UIApplication.shared.keyWindow else {
-                debugPrint("KeyWindow not set. Returning a defailt window for unit testing.")
+                debugPrint("KeyWindow not set. Returning a default window for unit testing.")
                 return UIWindow()
             }
             return window
@@ -110,8 +110,8 @@ open class McPicker: UIView {
     private let TOOLBAR_HEIGHT:CGFloat = 44.0
     private let BACKGROUND_ALPHA:CGFloat =  0.75
     private let ANIMATION_SPEED = 0.25
-    private var isPopoverMode = false
-    private var mcPickerPopoverViewController:McPickerPopoverViewController?
+    internal var isPopoverMode = false
+    internal var mcPickerPopoverViewController:McPickerPopoverViewController?
 
     
     convenience public init(data:[[String]]) {
@@ -124,7 +124,7 @@ open class McPicker: UIView {
         super.init(coder: aDecoder)
     }
     
-    private override init(frame: CGRect) {
+    internal override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -174,7 +174,7 @@ open class McPicker: UIView {
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
         
-        mcPickerPopoverViewController = McPickerPopoverViewController(mcPicker:self)
+        mcPickerPopoverViewController = McPickerPopoverViewController(mcPicker: self)
         mcPickerPopoverViewController?.modalPresentationStyle = UIModalPresentationStyle.popover
         
         let popover = mcPickerPopoverViewController?.popoverPresentationController
@@ -187,7 +187,7 @@ open class McPicker: UIView {
             popover?.barButtonItem = barButtonItem
         }
         
-        fromViewController.present(mcPickerPopoverViewController!, animated: true, completion: nil)
+        fromViewController.present(mcPickerPopoverViewController!, animated: true)
     }
 
 
