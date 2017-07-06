@@ -80,6 +80,8 @@ class McPickerTest: XCTestCase {
                 presentWasCalled = true
             }
         }
+        
+        XCTAssertTrue(false, "Testing failed test!")
     }
     
 }
