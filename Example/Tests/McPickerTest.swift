@@ -26,12 +26,13 @@ import XCTest
 
 class McPickerTest: XCTestCase {
 
+    let data:[[String]] = [
+        ["Bob", "Bill"]
+    ]
+    
     func testInitDefaultOptionsAreSet() {
         // Given
         //
-        let data:[[String]] = [
-            ["Bob", "Bill"]
-        ]
         class TestMcPicker : McPicker {
             var sizeViewsCalled = false
             override func sizeViews() {
@@ -72,6 +73,51 @@ class McPickerTest: XCTestCase {
         
         XCTAssertNil(mcPicker.mcPickerPopoverViewController)
     }
+    
+    func testSetToolbarButtonsColorSetsCancelAndDone() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        
+        // When
+        //
+        mcPicker.toolbarButtonsColor = UIColor.purple
+        
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
+    }
+    
+    func testSetToolbarDoneButtonsColorSetsDone() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        
+        // When
+        //
+        mcPicker.toolbarDoneButtonColor = UIColor.purple
+        
+        // Then
+        //
+        XCTAssertNil(mcPicker.cancelBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
+    }
+    
+    func testSetToolbarCancelButtonsColorSetsCancel() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        
+        // When
+        //
+        mcPicker.toolbarCancelButtonColor = UIColor.purple
+        
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
+        XCTAssertNil(mcPicker.doneBarButton.tintColor)
+    }
 
     func testInitShowAsPopover() {
         class TestVC : UIViewController {
@@ -80,8 +126,7 @@ class McPickerTest: XCTestCase {
                 presentWasCalled = true
             }
         }
-        
-        XCTAssertTrue(false, "Testing failed test!")
+        // TODO: Finish this thought
     }
     
 }
