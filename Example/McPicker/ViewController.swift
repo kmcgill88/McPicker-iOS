@@ -54,16 +54,16 @@ class ViewController: UIViewController {
             }
         })
 */
-        
+
         // Short hand
         //
-        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections:[Int : String]) -> Void in
+        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections: [Int : String]) -> Void in
             if let name = selections[0] {
                 self.label.text = name
             }
         }
     }
-    
+
     @IBAction func styledPicker(_ sender: Any) {
 
         let customLabel = UILabel()
@@ -82,7 +82,7 @@ class ViewController: UIViewController {
         mcPicker.toolbarButtonsColor = .white
         mcPicker.toolbarBarTintColor = .darkGray
         mcPicker.pickerBackgroundColor = .gray
-        
+
         if let barButton = sender as? UIBarButtonItem {
             // Show as Popover
             //
@@ -94,32 +94,32 @@ class ViewController: UIViewController {
         } else {
             // Show Normal
             //
-            mcPicker.show() { selections in
+            mcPicker.show { selections in
                 if let prefix = selections[0], let name = selections[1] {
                     self.label.text = "\(prefix) \(name)"
                 }
             }
         }
     }
-    
+
     @IBAction func popOverPicker(_ sender: UIButton) {
 
         McPicker.showAsPopover(data:data, fromViewController: self, sourceView: sender, cancelHandler: { () -> Void in
-            
+
             print("Canceled Popover")
-            
-        }, doneHandler: { (selections:[Int : String]) -> Void in
-            
+
+        }, doneHandler: { (selections: [Int : String]) -> Void in
+
             print("Done with Popover")
             if let name = selections[0] {
                 self.label.text = name
             }
         })
     }
-    
+
     @IBAction func pressedBarButtonItem(_ sender: UIBarButtonItem) {
 
-        McPicker.showAsPopover(data:data, fromViewController: self, barButtonItem: sender) { (selections:[Int : String]) -> Void in
+        McPicker.showAsPopover(data:data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
             print("Done with Popover")
             if let name = selections[0] {
                 self.label.text = name
