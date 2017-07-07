@@ -64,9 +64,6 @@ open class McPicker: UIView {
     internal var popOverContentSize: CGSize {
         return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
     }
-
-    fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
-    fileprivate var cancelHandler:() -> Void = {_ in }
     internal var pickerSelection: [Int:String] = [:]
     internal var pickerData: [[String]] = []
     internal var numberOfComponents: Int {
@@ -85,6 +82,9 @@ open class McPicker: UIView {
     }
     internal var isPopoverMode = false
     internal var mcPickerPopoverViewController: McPickerPopoverViewController?
+
+    fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
+    fileprivate var cancelHandler:() -> Void = {_ in }
 
     private var appWindow: UIWindow {
         guard let window = UIApplication.shared.keyWindow else {
