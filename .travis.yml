@@ -13,13 +13,13 @@ env:
     - DESTINATION="OS=8.1,name=iPhone 4S" SDK="iphonesimulator10.3" POD_LINT="NO" SWIFT_LINT="NO"
 
 before_install:
-  # - gem install cocoapods # Since Travis is not always on latest version
   - brew install swiftlint
   - pod install --project-directory=Example
-  - instruments -s devices
-  - xcodebuild -version
-  - xcodebuild -showsdks
-  - xcodebuild -list
+  # - gem install cocoapods # Since Travis is not always on latest version
+  # - instruments -s devices
+  # - xcodebuild -version
+  # - xcodebuild -showsdks
+  # - xcodebuild -list
 
 script:
   - set -o pipefail && xcodebuild test -workspace Example/McPicker.xcworkspace -scheme McPicker-Example -sdk "$SDK" -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO | xcpretty
