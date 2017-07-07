@@ -25,7 +25,7 @@ import XCTest
 @testable import McPicker
 
 // swiftlint:disable nesting
-class McPickerTest: XCTestCase {
+class McPickerTests: XCTestCase {
 
     let data: [[String]] = [
         ["Bob", "Bill"]
