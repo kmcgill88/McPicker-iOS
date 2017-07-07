@@ -165,13 +165,4 @@ class McPickerTests: XCTestCase {
         //
         XCTAssertEqual(UIColor.purple, mcPicker.picker.backgroundColor)
     }
-
-    func testInitShowAsPopover() {
-        class TestVC: UIViewController {
-            var presentWasCalled = false
-            override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
-                presentWasCalled = true
-            }
-        }
-    }
 }
