@@ -25,6 +25,7 @@ import XCTest
 @testable import McPicker
 
 // swiftlint:disable nesting
+// swiftlint:disable force_cast
 class McPickerTests: XCTestCase {
 
     let data: [[String]] = [
@@ -62,7 +63,6 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(mcPicker.backgroundColor, UIColor.black.withAlphaComponent(0.75))
         XCTAssertEqual(mcPicker.backgroundView.backgroundColor, UIColor.white)
 
-        // swiftlint:disable force_cast
         XCTAssertEqual(mcPicker, mcPicker.picker.delegate as! McPicker)
         XCTAssertEqual(mcPicker, mcPicker.picker.dataSource as! McPicker)
 
@@ -119,6 +119,51 @@ class McPickerTests: XCTestCase {
         //
         XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
         XCTAssertNil(mcPicker.doneBarButton.tintColor)
+    }
+
+    func testSetToolbarCancelButtonColor() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+
+        // When
+        //
+        XCTAssertNil(mcPicker.toolbar.barTintColor)
+        mcPicker.toolbarBarTintColor = UIColor.purple
+
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, mcPicker.toolbar.barTintColor)
+    }
+
+    func testSetToolbarItemsFont() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        let expectedFont = UIFont(name:"American Typewriter", size: 17)!
+
+        // When
+        //
+        mcPicker.toolbarItemsFont = expectedFont
+
+        // Then
+        //
+        XCTAssertEqual(expectedFont, mcPicker.cancelBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+        XCTAssertEqual(expectedFont, mcPicker.doneBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+    }
+
+    func testSetPickerBackgroundColor() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+
+        // When
+        //
+        mcPicker.pickerBackgroundColor = UIColor.purple
+
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, mcPicker.picker.backgroundColor)
     }
 
     func testInitShowAsPopover() {

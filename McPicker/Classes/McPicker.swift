@@ -62,7 +62,7 @@ open class McPicker: UIView {
     }
 
     internal var popOverContentSize: CGSize {
-            return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
+        return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
     }
 
     fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
@@ -148,9 +148,9 @@ open class McPicker: UIView {
                                   cancelHandler:@escaping () -> Void,
                                   doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
         McPicker(data: data).showAsPopover(fromViewController: fromViewController,
-                                           sourceView:sourceView,
-                                           sourceRect:sourceRect,
-                                           barButtonItem:barButtonItem,
+                                           sourceView: sourceView,
+                                           sourceRect: sourceRect,
+                                           barButtonItem: barButtonItem,
                                            cancelHandler: cancelHandler,
                                            doneHandler: doneHandler)
     }
@@ -162,9 +162,9 @@ open class McPicker: UIView {
                                   barButtonItem: UIBarButtonItem? = nil,
                                   doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
         McPicker(data: data).showAsPopover(fromViewController: fromViewController,
-                                           sourceView:sourceView,
-                                           sourceRect:sourceRect,
-                                           barButtonItem:barButtonItem,
+                                           sourceView: sourceView,
+                                           sourceRect: sourceRect,
+                                           barButtonItem: barButtonItem,
                                            cancelHandler: {},
                                            doneHandler: doneHandler)
     }
@@ -174,7 +174,12 @@ open class McPicker: UIView {
                             sourceRect: CGRect? = nil,
                             barButtonItem: UIBarButtonItem? = nil,
                             doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: {}, doneHandler: doneHandler)
+        self.showAsPopover(fromViewController: fromViewController,
+                           sourceView: sourceView,
+                           sourceRect: sourceRect,
+                           barButtonItem: barButtonItem,
+                           cancelHandler: {},
+                           doneHandler: doneHandler)
     }
 
     open func showAsPopover(fromViewController: UIViewController,
@@ -228,7 +233,6 @@ open class McPicker: UIView {
     }
 
     internal func sizeViews() {
-
         let size = isPopoverMode ? popOverContentSize : self.appWindow.bounds.size
         self.frame = CGRect(x: 0,
                             y: 0,
@@ -295,7 +299,6 @@ open class McPicker: UIView {
     }
 
     private func animateViews(direction: AnimationDirection) {
-
         var backgroundFrame = backgroundView.frame
 
         if direction == .in {

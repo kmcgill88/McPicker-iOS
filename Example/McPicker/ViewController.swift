@@ -76,7 +76,7 @@ class ViewController: UIViewController {
             ["Kevin", "Lauren", "Kibby", "Stella"]
         ]
 
-        let mcPicker = McPicker(data:data)
+        let mcPicker = McPicker(data: data)
         mcPicker.label = customLabel // Set your custom label
         mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
         mcPicker.toolbarButtonsColor = .white
@@ -119,7 +119,7 @@ class ViewController: UIViewController {
 
     @IBAction func pressedBarButtonItem(_ sender: UIBarButtonItem) {
 
-        McPicker.showAsPopover(data:data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
+        McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
             print("Done with Popover")
             if let name = selections[0] {
                 self.label.text = name
