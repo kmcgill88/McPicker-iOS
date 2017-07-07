@@ -62,7 +62,7 @@ open class McPicker: UIView {
     }
 
     internal var popOverContentSize: CGSize {
-            return CGSize(width: PICKER_HEIGHT + TOOLBAR_HEIGHT, height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+            return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
     }
 
     fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
@@ -71,10 +71,6 @@ open class McPicker: UIView {
     internal var pickerData: [[String]] = []
     internal var numberOfComponents: Int {
             return pickerData.count
-    }
-
-    private enum AnimationDirection {
-        case `in`, out
     }
     internal let picker: UIPickerView = UIPickerView()
     internal let backgroundView: UIView = UIView()
@@ -87,6 +83,9 @@ open class McPicker: UIView {
         fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * 0.02
         return fixedSpaceBarButtonItem
     }
+    internal var isPopoverMode = false
+    internal var mcPickerPopoverViewController: McPickerPopoverViewController?
+
     private var appWindow: UIWindow {
         guard let window = UIApplication.shared.keyWindow else {
             debugPrint("KeyWindow not set. Returning a default window for unit testing.")
@@ -94,12 +93,16 @@ open class McPicker: UIView {
         }
         return window
     }
-    private let PICKER_HEIGHT: CGFloat = 216.0
-    private let TOOLBAR_HEIGHT: CGFloat = 44.0
-    private let BACKGROUND_ALPHA: CGFloat =  0.75
-    private let ANIMATION_SPEED = 0.25
-    internal var isPopoverMode = false
-    internal var mcPickerPopoverViewController: McPickerPopoverViewController?
+
+    private enum AnimationDirection {
+        case `in`, out // swiftlint:disable:this identifier_name
+    }
+    private enum Constant {
+        static let pickerHeight: CGFloat = 216.0
+        static let toolBarHeight: CGFloat = 44.0
+        static let backgroundAlpha: CGFloat =  0.75
+        static let animationSpeed: TimeInterval = 0.25
+    }
 
     convenience public init(data: [[String]]) {
         self.init(frame: CGRect.zero)
@@ -137,19 +140,49 @@ open class McPicker: UIView {
 
     // MARK: Show As Popover
     //
-    open class func showAsPopover(data: [[String]], fromViewController: UIViewController, sourceView: UIView? = nil, sourceRect: CGRect? = nil, barButtonItem: UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        McPicker(data: data).showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: cancelHandler, doneHandler: doneHandler)
+    open class func showAsPopover(data: [[String]],
+                                  fromViewController: UIViewController,
+                                  sourceView: UIView? = nil,
+                                  sourceRect: CGRect? = nil,
+                                  barButtonItem: UIBarButtonItem? = nil,
+                                  cancelHandler:@escaping () -> Void,
+                                  doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
+        McPicker(data: data).showAsPopover(fromViewController: fromViewController,
+                                           sourceView:sourceView,
+                                           sourceRect:sourceRect,
+                                           barButtonItem:barButtonItem,
+                                           cancelHandler: cancelHandler,
+                                           doneHandler: doneHandler)
     }
 
-    open class func showAsPopover(data: [[String]], fromViewController: UIViewController, sourceView: UIView? = nil, sourceRect: CGRect? = nil, barButtonItem: UIBarButtonItem? = nil, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        McPicker(data: data).showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: {}, doneHandler: doneHandler)
+    open class func showAsPopover(data: [[String]],
+                                  fromViewController: UIViewController,
+                                  sourceView: UIView? = nil,
+                                  sourceRect: CGRect? = nil,
+                                  barButtonItem: UIBarButtonItem? = nil,
+                                  doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
+        McPicker(data: data).showAsPopover(fromViewController: fromViewController,
+                                           sourceView:sourceView,
+                                           sourceRect:sourceRect,
+                                           barButtonItem:barButtonItem,
+                                           cancelHandler: {},
+                                           doneHandler: doneHandler)
     }
 
-    open func showAsPopover(fromViewController: UIViewController, sourceView: UIView? = nil, sourceRect: CGRect? = nil, barButtonItem: UIBarButtonItem? = nil, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
+    open func showAsPopover(fromViewController: UIViewController,
+                            sourceView: UIView? = nil,
+                            sourceRect: CGRect? = nil,
+                            barButtonItem: UIBarButtonItem? = nil,
+                            doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
         self.showAsPopover(fromViewController: fromViewController, sourceView:sourceView, sourceRect:sourceRect, barButtonItem:barButtonItem, cancelHandler: {}, doneHandler: doneHandler)
     }
 
-    open func showAsPopover(fromViewController: UIViewController, sourceView: UIView? = nil, sourceRect: CGRect? = nil, barButtonItem: UIBarButtonItem? = nil, cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
+    open func showAsPopover(fromViewController: UIViewController,
+                            sourceView: UIView? = nil,
+                            sourceRect: CGRect? = nil,
+                            barButtonItem: UIBarButtonItem? = nil,
+                            cancelHandler:@escaping () -> Void,
+                            doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
 
         if sourceView == nil && barButtonItem == nil {
             fatalError("You must set at least 'sourceView' or 'barButtonItem'")
@@ -182,7 +215,7 @@ open class McPicker: UIView {
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
 
-        if let _ = newWindow {
+        if newWindow != nil {
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(sizeViews),
                                                    name: NSNotification.Name.UIDeviceOrientationDidChange,
@@ -202,19 +235,19 @@ open class McPicker: UIView {
                             width: size.width,
                             height: size.height)
 
-        let backgroundViewY = isPopoverMode ? 0 : self.bounds.size.height - (PICKER_HEIGHT + TOOLBAR_HEIGHT)
+        let backgroundViewY = isPopoverMode ? 0 : self.bounds.size.height - (Constant.pickerHeight + Constant.toolBarHeight)
         backgroundView.frame = CGRect(x: 0,
                                       y: backgroundViewY,
                                       width: self.bounds.size.width,
-                                      height: PICKER_HEIGHT + TOOLBAR_HEIGHT)
+                                      height: Constant.pickerHeight + Constant.toolBarHeight)
         toolbar.frame = CGRect(x: 0,
                                y: 0,
                                width: backgroundView.bounds.size.width,
-                               height: TOOLBAR_HEIGHT)
+                               height: Constant.toolBarHeight)
         picker.frame = CGRect(x: 0,
                               y: toolbar.bounds.size.height,
                               width: backgroundView.bounds.size.width,
-                              height: PICKER_HEIGHT)
+                              height: Constant.pickerHeight)
     }
 
     internal func addAllSubviews() {
@@ -228,7 +261,7 @@ open class McPicker: UIView {
 
         setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
 
-        self.backgroundColor = UIColor.black.withAlphaComponent(BACKGROUND_ALPHA)
+        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
         backgroundView.backgroundColor = UIColor.white
 
         picker.delegate = self
@@ -282,15 +315,15 @@ open class McPicker: UIView {
 
             // Animate things on screen
             //
-            UIView.animate(withDuration: ANIMATION_SPEED, animations: {
-                self.backgroundColor = UIColor.black.withAlphaComponent(self.BACKGROUND_ALPHA)
+            UIView.animate(withDuration: Constant.animationSpeed, animations: {
+                self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
                 backgroundFrame.origin.y = self.appWindow.bounds.size.height - self.backgroundView.bounds.height
                 self.backgroundView.frame = backgroundFrame
             })
         } else {
             // Animate things off screen
             //
-            UIView.animate(withDuration: ANIMATION_SPEED, animations: {
+            UIView.animate(withDuration: Constant.animationSpeed, animations: {
                 self.backgroundColor = UIColor.black.withAlphaComponent(0)
                 backgroundFrame.origin.y = self.appWindow.bounds.size.height
                 self.backgroundView.frame = backgroundFrame
@@ -316,7 +349,7 @@ extension McPicker : UIPickerViewDelegate {
 
         var pickerLabel = view as? UILabel
 
-        if (pickerLabel == nil) {
+        if pickerLabel == nil {
             pickerLabel = UILabel()
 
             if let goodLabel = label {
