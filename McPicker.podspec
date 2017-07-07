@@ -1,8 +1,3 @@
-#
-# Be sure to run `pod lib lint McPicker.podspec' to ensure this is a
-# valid spec before submitting.
-#
-
 Pod::Spec.new do |s|
   s.name             = 'McPicker'
   s.version          = '0.3.0'

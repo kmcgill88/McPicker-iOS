@@ -1,5 +1,5 @@
 # McPicker
-
+[![Build Status](https://travis-ci.org/kmcgill88/McPicker-iOS.svg?branch=master)](https://travis-ci.org/kmcgill88/McPicker-iOS)
 [![Version](https://img.shields.io/cocoapods/v/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![License](https://img.shields.io/cocoapods/l/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
@@ -17,7 +17,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 #### Short Syntax
 - Normal - (Slide up from bottom)
 ```swift
-McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections:[Int : String]) -> Void in
+McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections: [Int : String]) -> Void in
     if let name = selections[0] {
         self.label.text = name
     }
@@ -25,8 +25,8 @@ McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections:[In
 ```
 - As Popover
 ```swift
-let data = [["Kevin", "Lauren", "Kibby", "Stella"]]
-McPicker.showAsPopover(data:data, fromViewController: self, barButtonItem: sender) { (selections:[Int : String]) -> Void in
+let data: [[String]] = [["Kevin", "Lauren", "Kibby", "Stella"]]
+McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
     if let name = selections[0] {
         self.label.text = name
     }
@@ -40,12 +40,12 @@ customLabel.textAlignment = .center
 customLabel.textColor = .white
 customLabel.font = UIFont(name:"American Typewriter", size: 30)!
 
-let data:[[String]] = [
+let data: [[String]] = [
     ["Sir", "Mr", "Mrs", "Miss"],
     ["Kevin", "Lauren", "Kibby", "Stella"]
 ]
 
-let mcPicker = McPicker(data:data)
+let mcPicker = McPicker(data: data)
 mcPicker.label = customLabel // Set your custom label
 mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
 mcPicker.toolbarButtonsColor = .white
@@ -55,7 +55,7 @@ mcPicker.pickerBackgroundColor = .gray
 if let barButton = sender as? UIBarButtonItem {
     // Show as Popover
     //
-    mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections:[Int : String]) -> Void in
+    mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections: [Int : String]) -> Void in
         if let prefix = selections[0], let name = selections[1] {
             self.label.text = "\(prefix) \(name)"
         }
@@ -63,7 +63,7 @@ if let barButton = sender as? UIBarButtonItem {
 } else {
     // Show Normal
     //
-    mcPicker.show() { selections in
+    mcPicker.show { selections in
         if let prefix = selections[0], let name = selections[1] {
             self.label.text = "\(prefix) \(name)"
         }
@@ -72,6 +72,7 @@ if let barButton = sender as? UIBarButtonItem {
 ```
 
 ## Requirements
+- iOS 8+
 - Swift 3+
 - Xcode 8
 

@@ -24,24 +24,24 @@ import UIKit
 
 internal class McPickerPopoverViewController: UIViewController {
 
-    var mcPicker:McPicker?
-    
-    internal convenience init(mcPicker:McPicker) {
+    var mcPicker: McPicker?
+
+    internal convenience init(mcPicker: McPicker) {
         self.init(nibName: nil, bundle: nil)
         self.mcPicker = mcPicker
     }
-    
+
     internal required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         mcPicker!.sizeViews()
         mcPicker!.addAllSubviews()
         self.view.addSubview(mcPicker!)
