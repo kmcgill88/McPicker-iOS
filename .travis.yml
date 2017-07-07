@@ -25,7 +25,7 @@ before_install:
 script:
   - swiftlint
   - pod lib lint
-  - set -o pipefail && xcodebuild test -workspace Example/McPicker.xcworkspace -scheme McPicker-Example -sdk "$SDK" -destination $DESTINATION ONLY_ACTIVE_ARCH=NO | xcpretty
+  - set -o pipefail && xcodebuild test -workspace Example/McPicker.xcworkspace -scheme McPicker-Example -sdk "$SDK" -destination "$DESTINATION" ONLY_ACTIVE_ARCH=NO | xcpretty
 
     # Run `pod lib lint` if specified
   - if [ $POD_LINT == "YES" ]; then
