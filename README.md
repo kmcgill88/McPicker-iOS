@@ -72,6 +72,7 @@ if let barButton = sender as? UIBarButtonItem {
 ```
 
 ## Requirements
+- iOS 8+
 - Swift 3+
 - Xcode 8
 
