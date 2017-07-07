@@ -221,37 +221,20 @@ open class McPicker: UIView {
         super.willMove(toWindow: newWindow)
 
         if newWindow != nil {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(sizeViews),
-                                                   name: NSNotification.Name.UIDeviceOrientationDidChange,
-                                                   object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(sizeViews), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         } else {
-            NotificationCenter.default.removeObserver(self,
-                                                      name: NSNotification.Name.UIDeviceOrientationDidChange,
-                                                      object: nil)
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         }
     }
 
     internal func sizeViews() {
         let size = isPopoverMode ? popOverContentSize : self.appWindow.bounds.size
-        self.frame = CGRect(x: 0,
-                            y: 0,
-                            width: size.width,
-                            height: size.height)
+        self.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
         let backgroundViewY = isPopoverMode ? 0 : self.bounds.size.height - (Constant.pickerHeight + Constant.toolBarHeight)
-        backgroundView.frame = CGRect(x: 0,
-                                      y: backgroundViewY,
-                                      width: self.bounds.size.width,
-                                      height: Constant.pickerHeight + Constant.toolBarHeight)
-        toolbar.frame = CGRect(x: 0,
-                               y: 0,
-                               width: backgroundView.bounds.size.width,
-                               height: Constant.toolBarHeight)
-        picker.frame = CGRect(x: 0,
-                              y: toolbar.bounds.size.height,
-                              width: backgroundView.bounds.size.width,
-                              height: Constant.pickerHeight)
+        backgroundView.frame = CGRect(x: 0, y: backgroundViewY, width: self.bounds.size.width, height: Constant.pickerHeight + Constant.toolBarHeight)
+        toolbar.frame = CGRect(x: 0, y: 0, width: backgroundView.bounds.size.width, height: Constant.toolBarHeight)
+        picker.frame = CGRect(x: 0, y: toolbar.bounds.size.height, width: backgroundView.bounds.size.width, height: Constant.pickerHeight)
     }
 
     internal func addAllSubviews() {
@@ -349,7 +332,6 @@ extension McPicker : UIPickerViewDataSource {
 
 extension McPicker : UIPickerViewDelegate {
     public func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-
         var pickerLabel = view as? UILabel
 
         if pickerLabel == nil {
