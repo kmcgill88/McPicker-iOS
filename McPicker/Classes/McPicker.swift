@@ -276,6 +276,7 @@ open class McPicker: UIView {
     private func dismissViews() {
         if isPopoverMode {
             mcPickerPopoverViewController?.dismiss(animated: true, completion: nil)
+            mcPickerPopoverViewController = nil // Release as to not create a retain cycle.
         } else {
             animateViews(direction: .out)
         }
