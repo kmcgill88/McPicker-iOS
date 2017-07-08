@@ -165,4 +165,66 @@ class McPickerTests: XCTestCase {
         //
         XCTAssertEqual(UIColor.purple, mcPicker.picker.backgroundColor)
     }
+
+    func testDimissViews_callsAnimateViews() {
+        // Given
+        //
+        class TestMcPicker: McPicker {
+            var direction: McPicker.AnimationDirection?
+            var calledShow = false
+            override func animateViews(direction: McPicker.AnimationDirection) {
+                self.direction = direction
+            }
+
+            override func show(cancelHandler: @escaping () -> Void, doneHandler: @escaping ([Int : String]) -> Void) {
+                animateViews(direction: .in)
+                calledShow = true
+            }
+        }
+        let mcPicker = TestMcPicker(data: data)
+
+        // When
+        //
+        mcPicker.show(cancelHandler: {}) { (_: [Int : String]) in }
+        XCTAssertFalse(mcPicker.isPopoverMode)
+        XCTAssertEqual(McPicker.AnimationDirection.in, mcPicker.direction)
+        mcPicker.dismissViews()
+
+        // Then
+        //
+        XCTAssertTrue(mcPicker.calledShow)
+        XCTAssertEqual(McPicker.AnimationDirection.out, mcPicker.direction)
+    }
+
+    func testDimissViews_calls() {
+        // Given
+        //
+        class TestVC: UIViewController {
+            var presented = false
+            override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+                presented = true
+            }
+        }
+        class TestMcPicker: McPicker {
+            var calledAnimateViews = false
+            override func animateViews(direction: McPicker.AnimationDirection) {
+                calledAnimateViews = true
+            }
+        }
+        let testVC = TestVC()
+        let mcPicker = TestMcPicker(data: data)
+
+        // When
+        //
+        mcPicker.showAsPopover(fromViewController: testVC, sourceView: UIView()) { (_: [Int : String]) -> Void in }
+        XCTAssertTrue(mcPicker.mcPickerPopoverViewController != nil)
+        XCTAssertTrue(mcPicker.isPopoverMode)
+
+        mcPicker.dismissViews()
+
+        // Then
+        //
+        XCTAssertNil(mcPicker.mcPickerPopoverViewController)
+        XCTAssertFalse(mcPicker.calledAnimateViews)
+    }
 }

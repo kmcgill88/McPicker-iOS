@@ -82,6 +82,9 @@ open class McPicker: UIView {
     }
     internal var isPopoverMode = false
     internal var mcPickerPopoverViewController: McPickerPopoverViewController?
+    internal enum AnimationDirection {
+        case `in`, out // swiftlint:disable:this identifier_name
+    }
 
     fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
     fileprivate var cancelHandler:() -> Void = {_ in }
@@ -94,9 +97,6 @@ open class McPicker: UIView {
         return window
     }
 
-    private enum AnimationDirection {
-        case `in`, out // swiftlint:disable:this identifier_name
-    }
     private enum Constant {
         static let pickerHeight: CGFloat = 216.0
         static let toolBarHeight: CGFloat = 44.0
@@ -243,45 +243,16 @@ open class McPicker: UIView {
         self.addSubview(backgroundView)
     }
 
-    private func setup() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
-
-        setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
-
-        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
-        backgroundView.backgroundColor = UIColor.white
-
-        picker.delegate = self
-        picker.dataSource = self
-
-        sizeViews()
-
-        // Default selection to first item per component
-        //
-        for (index, element) in pickerData.enumerated() {
-            pickerSelection[index] = element.first
-        }
-    }
-
-    @objc private func done() {
-        self.doneHandler(self.pickerSelection)
-        self.dismissViews()
-    }
-
-    @objc private func cancel() {
-        self.cancelHandler()
-        self.dismissViews()
-    }
-
-    private func dismissViews() {
+    internal func dismissViews() {
         if isPopoverMode {
             mcPickerPopoverViewController?.dismiss(animated: true, completion: nil)
+            mcPickerPopoverViewController = nil // Release, as to not create a retain cycle.
         } else {
             animateViews(direction: .out)
         }
     }
 
-    private func animateViews(direction: AnimationDirection) {
+    internal func animateViews(direction: AnimationDirection) {
         var backgroundFrame = backgroundView.frame
 
         if direction == .in {
@@ -317,6 +288,36 @@ open class McPicker: UIView {
                 self.removeFromSuperview()
             })
         }
+    }
+
+    private func setup() {
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
+
+        setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
+
+        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
+        backgroundView.backgroundColor = UIColor.white
+
+        picker.delegate = self
+        picker.dataSource = self
+
+        sizeViews()
+
+        // Default selection to first item per component
+        //
+        for (index, element) in pickerData.enumerated() {
+            pickerSelection[index] = element.first
+        }
+    }
+
+    @objc private func done() {
+        self.doneHandler(self.pickerSelection)
+        self.dismissViews()
+    }
+
+    @objc private func cancel() {
+        self.cancelHandler()
+        self.dismissViews()
     }
 }
 
