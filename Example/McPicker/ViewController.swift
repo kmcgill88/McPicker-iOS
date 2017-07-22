@@ -82,6 +82,10 @@ class ViewController: UIViewController {
         mcPicker.toolbarButtonsColor = .white
         mcPicker.toolbarBarTintColor = .darkGray
         mcPicker.pickerBackgroundColor = .gray
+        mcPicker.pickerSelectRowsForComponents = [
+            0: [1: true],
+            1: [2: true]
+        ]
 
         if let barButton = sender as? UIBarButtonItem {
             // Show as Popover
