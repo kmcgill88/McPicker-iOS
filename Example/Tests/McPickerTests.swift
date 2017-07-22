@@ -166,7 +166,7 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(UIColor.purple, mcPicker.picker.backgroundColor)
     }
 
-    func testDimissViews_callsAnimateViews() {
+    func testDimissViews_callsAnimateViewsWhenShow() {
         // Given
         //
         class TestMcPicker: McPicker {
@@ -196,7 +196,7 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(McPicker.AnimationDirection.out, mcPicker.direction)
     }
 
-    func testDimissViews_calls() {
+    func testDimissViews_doesNotCallAnimateViewsWhenShowAsPopover() {
         // Given
         //
         class TestVC: UIViewController {
@@ -226,5 +226,29 @@ class McPickerTests: XCTestCase {
         //
         XCTAssertNil(mcPicker.mcPickerPopoverViewController)
         XCTAssertFalse(mcPicker.calledAnimateViews)
+    }
+
+    func testPickerSelectRowsForComponents() {
+        // Given
+        //
+        let data: [[String]] = [
+            ["Sir", "Mr", "Mrs", "Miss"],
+            ["Kevin", "Lauren", "Kibby", "Stella"]
+        ]
+        let mcPicker = McPicker(data: data)
+
+        // When
+        //
+        mcPicker.pickerSelectRowsForComponents = [
+            0: [3: true],
+            1: [2: true]
+        ]
+
+        // Then
+        //
+        XCTAssertEqual(3, mcPicker.picker.selectedRow(inComponent: 0))
+        XCTAssertEqual(2, mcPicker.picker.selectedRow(inComponent: 1))
+        XCTAssertEqual("Miss", mcPicker.pickerSelection[0]!)
+        XCTAssertEqual("Kibby", mcPicker.pickerSelection[1]!)
     }
 }

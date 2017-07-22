@@ -60,6 +60,7 @@ open class McPicker: UIView {
             picker.backgroundColor = pickerBackgroundColor
         }
     }
+
     /**
     Set the pickers default components positions.
 
@@ -69,6 +70,7 @@ open class McPicker: UIView {
         didSet {
             for component in pickerSelectRowsForComponents!.keys {
                 if let row = pickerSelectRowsForComponents![component]?.keys.first, let isAnimated = pickerSelectRowsForComponents![component]?.values.first {
+                    pickerSelection[component] = pickerData[component][row]
                     picker.selectRow(row, inComponent: component, animated: isAnimated)
                 }
             }
