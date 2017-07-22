@@ -35,15 +35,15 @@ McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: send
 
 #### Customization
 ```swift
+let data: [[String]] = [
+  ["Sir", "Mr", "Mrs", "Miss"],
+  ["Kevin", "Lauren", "Kibby", "Stella"]
+]
+
 let customLabel = UILabel()
 customLabel.textAlignment = .center
 customLabel.textColor = .white
 customLabel.font = UIFont(name:"American Typewriter", size: 30)!
-
-let data: [[String]] = [
-    ["Sir", "Mr", "Mrs", "Miss"],
-    ["Kevin", "Lauren", "Kibby", "Stella"]
-]
 
 let mcPicker = McPicker(data: data)
 mcPicker.label = customLabel // Set your custom label
@@ -51,6 +51,10 @@ mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
 mcPicker.toolbarButtonsColor = .white
 mcPicker.toolbarBarTintColor = .darkGray
 mcPicker.pickerBackgroundColor = .gray
+mcPicker.pickerSelectRowsForComponents = [
+    0: [3: true],
+    1: [2: true] // [Component: [Row: isAnimated]
+]
 
 if let barButton = sender as? UIBarButtonItem {
     // Show as Popover
@@ -70,6 +74,9 @@ if let barButton = sender as? UIBarButtonItem {
     }
 }
 ```
+
+##### The `selections`
+McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument. This is as simple as `[<Component Index>: <String of Selection>]` from the `data` you've passed in.
 
 ## Requirements
 - iOS 8+

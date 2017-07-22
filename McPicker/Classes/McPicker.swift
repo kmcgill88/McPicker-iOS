@@ -60,6 +60,21 @@ open class McPicker: UIView {
             picker.backgroundColor = pickerBackgroundColor
         }
     }
+    /**
+    Sets the picker's components row position and picker selections to those String values.
+
+    [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
+    */
+    public var pickerSelectRowsForComponents: [Int: [Int: Bool]]? {
+        didSet {
+            for component in pickerSelectRowsForComponents!.keys {
+                if let row = pickerSelectRowsForComponents![component]?.keys.first, let isAnimated = pickerSelectRowsForComponents![component]?.values.first {
+                    pickerSelection[component] = pickerData[component][row]
+                    picker.selectRow(row, inComponent: component, animated: isAnimated)
+                }
+            }
+        }
+    }
 
     internal var popOverContentSize: CGSize {
         return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
