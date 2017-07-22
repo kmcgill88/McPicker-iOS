@@ -60,9 +60,8 @@ open class McPicker: UIView {
             picker.backgroundColor = pickerBackgroundColor
         }
     }
-
     /**
-    Set the pickers default components positions.
+    Sets the picker's components row position and picker selections to those String values.
 
     [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
     */
