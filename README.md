@@ -76,7 +76,7 @@ if let barButton = sender as? UIBarButtonItem {
 ```
 
 ##### The `selections`
-McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument. This is as simple as `[<Component Index>: <String of Selection>]`.
+McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument. This is as simple as `[<Component Index>: <String of Selection>]` from the `data` you've passed in.
 
 ## Requirements
 - iOS 8+
