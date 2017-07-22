@@ -45,7 +45,6 @@ customLabel.textAlignment = .center
 customLabel.textColor = .white
 customLabel.font = UIFont(name:"American Typewriter", size: 30)!
 
-
 let mcPicker = McPicker(data: data)
 mcPicker.label = customLabel // Set your custom label
 mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
@@ -53,7 +52,7 @@ mcPicker.toolbarButtonsColor = .white
 mcPicker.toolbarBarTintColor = .darkGray
 mcPicker.pickerBackgroundColor = .gray
 mcPicker.pickerSelectRowsForComponents = [
-    0: [1: true],
+    0: [3: true],
     1: [2: true] // [Component: [Row: isAnimated]
 ]
 
@@ -75,6 +74,9 @@ if let barButton = sender as? UIBarButtonItem {
     }
 }
 ```
+
+##### The `selections`
+McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument. This is as simple as `[<Component Index>: <Value of Selection>]`.
 
 ## Requirements
 - iOS 8+

@@ -83,7 +83,7 @@ class ViewController: UIViewController {
         mcPicker.toolbarBarTintColor = .darkGray
         mcPicker.pickerBackgroundColor = .gray
         mcPicker.pickerSelectRowsForComponents = [
-            0: [1: true],
+            0: [3: true],
             1: [2: true]
         ]
 
