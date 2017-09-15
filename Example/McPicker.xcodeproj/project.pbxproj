@@ -15,6 +15,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* McPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* McPickerTests.swift */; };
 		D1E12A0ABE0D9540DA0C439E /* Pods_McPicker_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B6C05EDB200F71455915F2A /* Pods_McPicker_Example.framework */; };
+		E7E851651F6B755400BC6A21 /* McPickerBarButtonItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E851631F6B736000BC6A21 /* McPickerBarButtonItemTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		72A6ECE6754F0D53A01840EE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		ABDF864FC68406B6ADCF5DB4 /* Pods-McPicker_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-McPicker_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-McPicker_Tests/Pods-McPicker_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		D9855A22F5DA80A1D2B923E0 /* Pods_McPicker_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_McPicker_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7E851631F6B736000BC6A21 /* McPickerBarButtonItemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = McPickerBarButtonItemTests.swift; sourceTree = "<group>"; };
 		EC9DECD62B7A481490DA18FF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		ED86DD62AC5C0FB422C21828 /* Pods-McPicker_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-McPicker_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-McPicker_Example/Pods-McPicker_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* McPickerTests.swift */,
+				E7E851631F6B736000BC6A21 /* McPickerBarButtonItemTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -384,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7E851651F6B755400BC6A21 /* McPickerBarButtonItemTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* McPickerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

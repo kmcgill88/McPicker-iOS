@@ -25,6 +25,19 @@ import UIKit
 open class McPicker: UIView {
 
     open var fontSize: CGFloat = 25.0
+
+    /**
+        The custom label to use with the picker.
+     
+        ```
+             let customLabel = UILabel()
+             customLabel.textAlignment = .center
+             customLabel.textColor = .white
+             customLabel.font = UIFont(name:"American Typewriter", size: 30)!
+     
+             mcPicker.label = customLabel // Set your custom label
+         ```
+     */
     open var label: UILabel?
 
     public var toolbarButtonsColor: UIColor? {
@@ -61,9 +74,9 @@ open class McPicker: UIView {
         }
     }
     /**
-    Sets the picker's components row position and picker selections to those String values.
+        Sets the picker's components row position and picker selections to those String values.
 
-    [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
+        [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
     */
     public var pickerSelectRowsForComponents: [Int: [Int: Bool]]? {
         didSet {
@@ -92,7 +105,7 @@ open class McPicker: UIView {
     internal let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     internal var fixedSpace: UIBarButtonItem {
         let fixedSpaceBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * 0.02
+        fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * Constant.barButtonFixedSpacePadding
         return fixedSpaceBarButtonItem
     }
     internal var isPopoverMode = false
@@ -117,6 +130,7 @@ open class McPicker: UIView {
         static let toolBarHeight: CGFloat = 44.0
         static let backgroundAlpha: CGFloat =  0.75
         static let animationSpeed: TimeInterval = 0.25
+        static let barButtonFixedSpacePadding: CGFloat = 0.02
     }
 
     convenience public init(data: [[String]]) {
@@ -305,6 +319,16 @@ open class McPicker: UIView {
         }
     }
 
+    @objc internal func done() {
+        self.doneHandler(self.pickerSelection)
+        self.dismissViews()
+    }
+
+    @objc internal func cancel() {
+        self.cancelHandler()
+        self.dismissViews()
+    }
+
     private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
 
@@ -325,15 +349,6 @@ open class McPicker: UIView {
         }
     }
 
-    @objc private func done() {
-        self.doneHandler(self.pickerSelection)
-        self.dismissViews()
-    }
-
-    @objc private func cancel() {
-        self.cancelHandler()
-        self.dismissViews()
-    }
 }
 
 extension McPicker : UIPickerViewDataSource {
