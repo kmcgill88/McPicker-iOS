@@ -54,11 +54,22 @@ class McPickerTests: XCTestCase {
 
         XCTAssertEqual(1, mcPicker.gestureRecognizers?.count)
         XCTAssertEqual(5, mcPicker.toolbar.items?.count)
-        XCTAssertEqual(mcPicker.fixedSpace.style, mcPicker.toolbar.items?[0].style)
-        XCTAssertEqual(mcPicker.cancelBarButton, mcPicker.toolbar.items?[1])
-        XCTAssertEqual(mcPicker.flexibleSpace.style, mcPicker.toolbar.items?[2].style)
-        XCTAssertEqual(mcPicker.doneBarButton, mcPicker.toolbar.items?[3])
-        XCTAssertEqual(mcPicker.fixedSpace.style, mcPicker.toolbar.items?[0].style)
+
+        let fixedSpace = mcPicker.toolbar.items?[0] as! McPickerBarButtonItem
+        XCTAssertNil(fixedSpace.target)
+        XCTAssertNil(fixedSpace.action)
+
+        let cancelBarButton = mcPicker.toolbar.items?[1] as! McPickerBarButtonItem
+        XCTAssertEqual(cancelBarButton.target as! TestMcPicker, mcPicker)
+        XCTAssertEqual(cancelBarButton.action!, #selector(TestMcPicker.cancel))
+
+        let flexibleSpace = mcPicker.toolbar.items?[2] as! McPickerBarButtonItem
+        XCTAssertNil(flexibleSpace.target)
+        XCTAssertNil(flexibleSpace.action)
+
+        let doneBarButton = mcPicker.toolbar.items?[3] as! McPickerBarButtonItem
+        XCTAssertEqual(doneBarButton.target as! TestMcPicker, mcPicker)
+        XCTAssertEqual(doneBarButton.action!, #selector(TestMcPicker.done))
 
         XCTAssertEqual(mcPicker.backgroundColor, UIColor.black.withAlphaComponent(0.75))
         XCTAssertEqual(mcPicker.backgroundView.backgroundColor, UIColor.white)
@@ -80,6 +91,8 @@ class McPickerTests: XCTestCase {
         // Given
         //
         let mcPicker = McPicker(data: data)
+        let cancelBarButton = mcPicker.toolbar.items?[1] as! McPickerBarButtonItem
+        let doneBarButton = mcPicker.toolbar.items?[3] as! McPickerBarButtonItem
 
         // When
         //
@@ -87,14 +100,16 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
-        XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, cancelBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, doneBarButton.tintColor)
     }
 
     func testSetToolbarDoneButtonsColorSetsDone() {
         // Given
         //
         let mcPicker = McPicker(data: data)
+        let cancelBarButton = mcPicker.toolbar.items?[1] as! McPickerBarButtonItem
+        let doneBarButton = mcPicker.toolbar.items?[3] as! McPickerBarButtonItem
 
         // When
         //
@@ -102,14 +117,16 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertNil(mcPicker.cancelBarButton.tintColor)
-        XCTAssertEqual(UIColor.purple, mcPicker.doneBarButton.tintColor)
+        XCTAssertNil(cancelBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, doneBarButton.tintColor)
     }
 
     func testSetToolbarCancelButtonsColorSetsCancel() {
         // Given
         //
         let mcPicker = McPicker(data: data)
+        let cancelBarButton = mcPicker.toolbar.items?[1] as! McPickerBarButtonItem
+        let doneBarButton = mcPicker.toolbar.items?[3] as! McPickerBarButtonItem
 
         // When
         //
@@ -117,8 +134,8 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(UIColor.purple, mcPicker.cancelBarButton.tintColor)
-        XCTAssertNil(mcPicker.doneBarButton.tintColor)
+        XCTAssertEqual(UIColor.purple, cancelBarButton.tintColor)
+        XCTAssertNil(doneBarButton.tintColor)
     }
 
     func testSetToolbarCancelButtonColor() {
@@ -140,6 +157,8 @@ class McPickerTests: XCTestCase {
         // Given
         //
         let mcPicker = McPicker(data: data)
+        let cancelBarButton = mcPicker.toolbar.items?[1] as! McPickerBarButtonItem
+        let doneBarButton = mcPicker.toolbar.items?[3] as! McPickerBarButtonItem
         let expectedFont = UIFont(name:"American Typewriter", size: 17)!
 
         // When
@@ -148,8 +167,8 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(expectedFont, mcPicker.cancelBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
-        XCTAssertEqual(expectedFont, mcPicker.doneBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
     }
 
     func testSetPickerBackgroundColor() {
