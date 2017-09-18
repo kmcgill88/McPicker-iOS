@@ -48,6 +48,13 @@ customLabel.font = UIFont(name:"American Typewriter", size: 30)!
 let mcPicker = McPicker(data: data)
 mcPicker.label = customLabel // Set your custom label
 mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
+
+let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
+let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
+let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!")
+let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel)
+mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
 mcPicker.toolbarButtonsColor = .white
 mcPicker.toolbarBarTintColor = .darkGray
 mcPicker.pickerBackgroundColor = .gray

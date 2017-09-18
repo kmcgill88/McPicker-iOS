@@ -62,9 +62,7 @@ open class McPicker: UIView {
         }
     }
     public var toolbarBarTintColor: UIColor? {
-        didSet {
-            toolbar.barTintColor = toolbarBarTintColor
-        }
+        didSet { toolbar.barTintColor = toolbarBarTintColor }
     }
     public var toolbarItemsFont: UIFont? {
         didSet {
@@ -74,9 +72,7 @@ open class McPicker: UIView {
         }
     }
     public var pickerBackgroundColor: UIColor? {
-        didSet {
-            picker.backgroundColor = pickerBackgroundColor
-        }
+        didSet { picker.backgroundColor = pickerBackgroundColor }
     }
     /**
         Sets the picker's components row position and picker selections to those String values.
@@ -94,6 +90,9 @@ open class McPicker: UIView {
             }
         }
     }
+    public var showsSelectionIndicator: Bool? {
+        didSet { picker.showsSelectionIndicator = showsSelectionIndicator ?? false }
+    }
 
     internal var popOverContentSize: CGSize {
         return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
@@ -101,7 +100,7 @@ open class McPicker: UIView {
     internal var pickerSelection: [Int:String] = [:]
     internal var pickerData: [[String]] = []
     internal var numberOfComponents: Int {
-            return pickerData.count
+        return pickerData.count
     }
     internal let picker: UIPickerView = UIPickerView()
     internal let backgroundView: UIView = UIView()
@@ -331,10 +330,8 @@ open class McPicker: UIView {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
 
         let fixedSpace = McPickerBarButtonItem.fixedSpace(width: appWindow.bounds.size.width * Constant.barButtonFixedSpacePadding)
-        let cancelBarButton = McPickerBarButtonItem.cancel(mcPicker: self)
-        let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
-        let doneBarButton = McPickerBarButtonItem.done(mcPicker: self)
-        setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
+        setToolbarItems(items: [fixedSpace, McPickerBarButtonItem.cancel(mcPicker: self),
+                                McPickerBarButtonItem.flexibleSpace(), McPickerBarButtonItem.done(mcPicker: self), fixedSpace])
 
         self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
         backgroundView.backgroundColor = UIColor.white

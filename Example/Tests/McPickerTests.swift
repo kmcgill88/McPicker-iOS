@@ -85,6 +85,7 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(data.first?.first, mcPicker.pickerSelection[0])
 
         XCTAssertNil(mcPicker.mcPickerPopoverViewController)
+        XCTAssertNil(mcPicker.showsSelectionIndicator)
     }
 
     func testSetToolbarButtonsColorSetsCancelAndDone() {
@@ -269,5 +270,19 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(2, mcPicker.picker.selectedRow(inComponent: 1))
         XCTAssertEqual("Miss", mcPicker.pickerSelection[0]!)
         XCTAssertEqual("Kibby", mcPicker.pickerSelection[1]!)
+    }
+
+    func testPickerCanSetShowsSelectionIndicator() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+
+        // When
+        //
+        mcPicker.showsSelectionIndicator = true
+
+        // Then
+        //
+        XCTAssertTrue(mcPicker.showsSelectionIndicator!)
     }
 }
