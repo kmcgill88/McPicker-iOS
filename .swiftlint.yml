@@ -1,2 +1,5 @@
 line_length: 200
 cyclomatic_complexity: 5
+file_length:
+  warning: 500
+  error: 1200

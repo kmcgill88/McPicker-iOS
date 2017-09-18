@@ -25,55 +25,73 @@ import UIKit
 open class McPicker: UIView {
 
     open var fontSize: CGFloat = 25.0
+
+    /**
+        The custom label to use with the picker.
+     
+        ```
+             let customLabel = UILabel()
+             customLabel.textAlignment = .center
+             customLabel.textColor = .white
+             customLabel.font = UIFont(name:"American Typewriter", size: 30)!
+     
+             mcPicker.label = customLabel // Set your custom label
+         ```
+     */
     open var label: UILabel?
 
     public var toolbarButtonsColor: UIColor? {
         didSet {
-            cancelBarButton.tintColor = toolbarButtonsColor
-            doneBarButton.tintColor = toolbarButtonsColor
+            applyToolbarButtonItemsSettings { (barButtonItem) in
+                barButtonItem.tintColor = toolbarButtonsColor
+            }
         }
     }
     public var toolbarDoneButtonColor: UIColor? {
         didSet {
-            doneBarButton.tintColor = toolbarDoneButtonColor
+            applyToolbarButtonItemsSettings(withAction: #selector(McPicker.done)) { (barButtonItem) in
+                barButtonItem.tintColor = toolbarDoneButtonColor
+            }
         }
     }
     public var toolbarCancelButtonColor: UIColor? {
         didSet {
-            cancelBarButton.tintColor = toolbarCancelButtonColor
+            applyToolbarButtonItemsSettings(withAction: #selector(McPicker.cancel)) { (barButtonItem) in
+                barButtonItem.tintColor = toolbarCancelButtonColor
+            }
         }
     }
     public var toolbarBarTintColor: UIColor? {
-        didSet {
-            toolbar.barTintColor = toolbarBarTintColor
-        }
+        didSet { toolbar.barTintColor = toolbarBarTintColor }
     }
     public var toolbarItemsFont: UIFont? {
         didSet {
-            for item in toolbar.items ?? [] {
-                item.setTitleTextAttributes([NSFontAttributeName: toolbarItemsFont!], for: .normal)
+            applyToolbarButtonItemsSettings { (barButtonItem) in
+                barButtonItem.setTitleTextAttributes([NSFontAttributeName: toolbarItemsFont!], for: .normal)
             }
         }
     }
     public var pickerBackgroundColor: UIColor? {
-        didSet {
-            picker.backgroundColor = pickerBackgroundColor
-        }
+        didSet { picker.backgroundColor = pickerBackgroundColor }
     }
     /**
-    Sets the picker's components row position and picker selections to those String values.
+        Sets the picker's components row position and picker selections to those String values.
 
-    [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
+        [Int:[Int:Bool]] equates to [Component: [Row: isAnimated]
     */
     public var pickerSelectRowsForComponents: [Int: [Int: Bool]]? {
         didSet {
             for component in pickerSelectRowsForComponents!.keys {
-                if let row = pickerSelectRowsForComponents![component]?.keys.first, let isAnimated = pickerSelectRowsForComponents![component]?.values.first {
+                if let row = pickerSelectRowsForComponents![component]?.keys.first,
+                    let isAnimated = pickerSelectRowsForComponents![component]?.values.first {
                     pickerSelection[component] = pickerData[component][row]
                     picker.selectRow(row, inComponent: component, animated: isAnimated)
                 }
             }
         }
+    }
+    public var showsSelectionIndicator: Bool? {
+        didSet { picker.showsSelectionIndicator = showsSelectionIndicator ?? false }
     }
 
     internal var popOverContentSize: CGSize {
@@ -82,19 +100,11 @@ open class McPicker: UIView {
     internal var pickerSelection: [Int:String] = [:]
     internal var pickerData: [[String]] = []
     internal var numberOfComponents: Int {
-            return pickerData.count
+        return pickerData.count
     }
     internal let picker: UIPickerView = UIPickerView()
     internal let backgroundView: UIView = UIView()
     internal let toolbar: UIToolbar = UIToolbar()
-    internal let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done))
-    internal let cancelBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-    internal let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    internal var fixedSpace: UIBarButtonItem {
-        let fixedSpaceBarButtonItem = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        fixedSpaceBarButtonItem.width = appWindow.bounds.size.width * 0.02
-        return fixedSpaceBarButtonItem
-    }
     internal var isPopoverMode = false
     internal var mcPickerPopoverViewController: McPickerPopoverViewController?
     internal enum AnimationDirection {
@@ -117,6 +127,7 @@ open class McPicker: UIView {
         static let toolBarHeight: CGFloat = 44.0
         static let backgroundAlpha: CGFloat =  0.75
         static let animationSpeed: TimeInterval = 0.25
+        static let barButtonFixedSpacePadding: CGFloat = 0.02
     }
 
     convenience public init(data: [[String]]) {
@@ -228,7 +239,7 @@ open class McPicker: UIView {
         fromViewController.present(mcPickerPopoverViewController!, animated: true)
     }
 
-    open func setToolbarItems(items: [UIBarButtonItem]) {
+    open func setToolbarItems(items: [McPickerBarButtonItem]) {
         toolbar.items = items
     }
 
@@ -305,10 +316,22 @@ open class McPicker: UIView {
         }
     }
 
+    @objc internal func done() {
+        self.doneHandler(self.pickerSelection)
+        self.dismissViews()
+    }
+
+    @objc internal func cancel() {
+        self.cancelHandler()
+        self.dismissViews()
+    }
+
     private func setup() {
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
 
-        setToolbarItems(items: [fixedSpace, cancelBarButton, flexibleSpace, doneBarButton, fixedSpace])
+        let fixedSpace = McPickerBarButtonItem.fixedSpace(width: appWindow.bounds.size.width * Constant.barButtonFixedSpacePadding)
+        setToolbarItems(items: [fixedSpace, McPickerBarButtonItem.cancel(mcPicker: self),
+                                McPickerBarButtonItem.flexibleSpace(), McPickerBarButtonItem.done(mcPicker: self), fixedSpace])
 
         self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
         backgroundView.backgroundColor = UIColor.white
@@ -325,14 +348,16 @@ open class McPicker: UIView {
         }
     }
 
-    @objc private func done() {
-        self.doneHandler(self.pickerSelection)
-        self.dismissViews()
-    }
+    private func applyToolbarButtonItemsSettings(withAction: Selector? = nil, settings: (_ barButton: UIBarButtonItem) -> Void) {
+        for item in toolbar.items ?? [] {
+            if let action = withAction, action == item.action {
+                settings(item)
+            }
 
-    @objc private func cancel() {
-        self.cancelHandler()
-        self.dismissViews()
+            if withAction == nil {
+                settings(item)
+            }
+        }
     }
 }
 
