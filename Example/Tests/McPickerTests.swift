@@ -206,7 +206,7 @@ class McPickerTests: XCTestCase {
 
         // When
         //
-        mcPicker.show(cancelHandler: {}) { (_: [Int : String]) in }
+        mcPicker.show(cancelHandler: {}, doneHandler: { (_: [Int : String]) in })
         XCTAssertFalse(mcPicker.isPopoverMode)
         XCTAssertEqual(McPicker.AnimationDirection.in, mcPicker.direction)
         mcPicker.dismissViews()
