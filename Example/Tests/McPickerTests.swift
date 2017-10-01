@@ -168,8 +168,8 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
-        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
     }
 
     func testSetPickerBackgroundColor() {

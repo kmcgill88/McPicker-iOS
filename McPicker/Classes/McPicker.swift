@@ -67,7 +67,7 @@ open class McPicker: UIView {
     public var toolbarItemsFont: UIFont? {
         didSet {
             applyToolbarButtonItemsSettings { (barButtonItem) in
-                barButtonItem.setTitleTextAttributes([NSFontAttributeName: toolbarItemsFont!], for: .normal)
+                barButtonItem.setTitleTextAttributes([.font: toolbarItemsFont!], for: .normal)
             }
         }
     }
@@ -112,7 +112,7 @@ open class McPicker: UIView {
     }
 
     fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
-    fileprivate var cancelHandler:() -> Void = {_ in }
+    fileprivate var cancelHandler:() -> Void = { }
 
     private var appWindow: UIWindow {
         guard let window = UIApplication.shared.keyWindow else {
@@ -247,13 +247,13 @@ open class McPicker: UIView {
         super.willMove(toWindow: newWindow)
 
         if newWindow != nil {
-            NotificationCenter.default.addObserver(self, selector: #selector(sizeViews), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(McPicker.sizeViews), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         } else {
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         }
     }
 
-    internal func sizeViews() {
+    @objc internal func sizeViews() {
         let size = isPopoverMode ? popOverContentSize : self.appWindow.bounds.size
         self.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
@@ -327,7 +327,7 @@ open class McPicker: UIView {
     }
 
     private func setup() {
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancel)))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(McPicker.cancel)))
 
         let fixedSpace = McPickerBarButtonItem.fixedSpace(width: appWindow.bounds.size.width * Constant.barButtonFixedSpacePadding)
         setToolbarItems(items: [fixedSpace, McPickerBarButtonItem.cancel(mcPicker: self),
