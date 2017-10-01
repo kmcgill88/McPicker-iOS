@@ -3,3 +3,6 @@ cyclomatic_complexity: 5
 file_length:
   warning: 500
   error: 1200
+type_body_length:
+  - 300 # warning
+  - 400 # error

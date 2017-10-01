@@ -53,6 +53,7 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(data[0][1], mcPicker.pickerData[0][1])
 
         XCTAssertEqual(1, mcPicker.gestureRecognizers?.count)
+        XCTAssertEqual(mcPicker, mcPicker.gestureRecognizers!.first!.delegate! as! TestMcPicker)
         XCTAssertEqual(5, mcPicker.toolbar.items?.count)
 
         let fixedSpace = mcPicker.toolbar.items?[0] as! McPickerBarButtonItem
