@@ -1,4 +1,4 @@
-osx_image: xcode8.3
+osx_image: xcode9
 language: swift
 # cache: cocoapods
 # podfile: Example/Podfile
@@ -8,17 +8,18 @@ env:
   - LC_CTYPE=en_US.UTF-8
   - LANG=en_US.UTF-8
   matrix:
-    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK="iphonesimulator10.3" POD_LINT="YES" SWIFT_LINT="YES"
-    - DESTINATION="OS=9.0,name=iPhone 6" SDK="iphonesimulator10.3" POD_LINT="NO" SWIFT_LINT="NO"
-    - DESTINATION="OS=8.1,name=iPhone 4S" SDK="iphonesimulator10.3" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=11.0,name=iPhone 8" SDK="iphonesimulator11.0" POD_LINT="YES" SWIFT_LINT="YES"
+    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=9.3,name=iPhone 6" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=8.4,name=iPhone 4S" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
 
 before_install:
   - brew install swiftlint
   - pod install --project-directory=Example
   # - gem install cocoapods # Since Travis is not always on latest version
+  # - xcodebuild -showsdks
   # - instruments -s devices
   # - xcodebuild -version
-  # - xcodebuild -showsdks
   # - xcodebuild -list
 
 script:

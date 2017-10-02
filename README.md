@@ -88,7 +88,7 @@ McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument
 ## Requirements
 - iOS 8+
 - Swift 3+
-- Xcode 8
+- Xcode 8+
 
 ## Installation
 

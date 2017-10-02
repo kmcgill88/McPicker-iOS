@@ -53,6 +53,7 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(data[0][1], mcPicker.pickerData[0][1])
 
         XCTAssertEqual(1, mcPicker.gestureRecognizers?.count)
+        XCTAssertEqual(mcPicker, mcPicker.gestureRecognizers!.first!.delegate! as! TestMcPicker)
         XCTAssertEqual(5, mcPicker.toolbar.items?.count)
 
         let fixedSpace = mcPicker.toolbar.items?[0] as! McPickerBarButtonItem
@@ -168,8 +169,8 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
-        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSFontAttributeName] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
     }
 
     func testSetPickerBackgroundColor() {
@@ -205,7 +206,7 @@ class McPickerTests: XCTestCase {
 
         // When
         //
-        mcPicker.show(cancelHandler: {}) { (_: [Int : String]) in }
+        mcPicker.show(cancelHandler: {}, doneHandler: { (_: [Int : String]) in })
         XCTAssertFalse(mcPicker.isPopoverMode)
         XCTAssertEqual(McPicker.AnimationDirection.in, mcPicker.direction)
         mcPicker.dismissViews()
