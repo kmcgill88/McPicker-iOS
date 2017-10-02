@@ -14,12 +14,12 @@ env:
     - DESTINATION="OS=8.4,name=iPhone 4S" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
 
 before_install:
-  - xcodebuild -showsdks
   - brew install swiftlint
   - pod install --project-directory=Example
   # - gem install cocoapods # Since Travis is not always on latest version
-  - instruments -s devices
-  - xcodebuild -version
+  # - xcodebuild -showsdks
+  # - instruments -s devices
+  # - xcodebuild -version
   # - xcodebuild -list
 
 script:
