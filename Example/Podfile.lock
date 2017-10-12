@@ -1,5 +1,5 @@
 PODS:
-  - McPicker (0.3.0)
+  - McPicker (0.5.1)
 
 DEPENDENCIES:
   - McPicker (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  McPicker: 03372ec8d19983588660fa21cb83e282af0c86de
+  McPicker: 83a10871334af867db45c26421fbc767d883460d
 
 PODFILE CHECKSUM: 7f68cc3d721452977903943f3af774acc3f68ed4
 
