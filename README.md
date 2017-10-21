@@ -90,7 +90,7 @@ McPicker's `doneHandler` passes back `selections: [Int : String]` as an argument
 - Swift 4.0
 - Xcode 9
 
-> __Note__: Starting in 0.5.1 McPicker uses the Swift 4 Compiler. [Ensure the correct compiler is set in your project.](https://github.com/kmcgill88/McPicker-iOS/issues/23)
+> __Note__: Starting in 0.5.1 McPicker uses the Swift 4 Compiler. [Ensure the correct compiler is set in your project.](https://github.com/kmcgill88/McPicker-iOS/issues/23). If you'd like to use Swift 3 use version <=0.5.0.
 
 ## Installation
 
