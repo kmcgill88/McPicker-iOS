@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'McPicker'
-  s.version          = '0.5.1'
+  s.version          = '0.5.2'
   s.summary          = 'McPicker is a UIPickerView drop-in solution with animations that is rotation ready.'
 
   s.description      = <<-DESC
