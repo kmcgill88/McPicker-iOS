@@ -77,14 +77,14 @@ class ViewController: UIViewController {
         ]
 
         let mcPicker = McPicker(data: data)
-        mcPicker.label = customLabel // Set your custom label
-        mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
-
         let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
         let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
         let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!") // Set custom Text
         let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel) // or system items
         mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
+        mcPicker.label = customLabel // Set your custom label
+        mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
 
         mcPicker.toolbarButtonsColor = .white
         mcPicker.toolbarBarTintColor = .darkGray
