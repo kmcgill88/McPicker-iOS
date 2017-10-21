@@ -68,6 +68,7 @@ open class McPicker: UIView {
         didSet {
             applyToolbarButtonItemsSettings { (barButtonItem) in
                 barButtonItem.setTitleTextAttributes([.font: toolbarItemsFont!], for: .normal)
+                barButtonItem.setTitleTextAttributes([.font: toolbarItemsFont!], for: .selected)
             }
         }
     }
