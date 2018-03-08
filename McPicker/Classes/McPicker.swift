@@ -108,6 +108,11 @@ open class McPicker: UIView {
         return pickerData.count
     }
     internal let picker: UIPickerView = UIPickerView()
+    public var pickerDelegate: UIPickerViewDelegate? {
+        didSet {
+            picker.delegate = pickerDelegate
+        }
+    }
     internal let backgroundView: UIView = UIView()
     internal let toolbar: UIToolbar = UIToolbar()
     internal var isPopoverMode = false
