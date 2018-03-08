@@ -95,6 +95,10 @@ open class McPicker: UIView {
         didSet { picker.showsSelectionIndicator = showsSelectionIndicator ?? false }
     }
 
+    public typealias DoneHandler = (_ selections: [Int:String]) -> Void
+    public typealias CancelHandler = (() -> Void)
+    public typealias SelectionChangedHandler = ((_ selections: [Int:String], _ componentThatChanged: Int) -> Void)
+
     internal var popOverContentSize: CGSize {
         return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
     }
@@ -112,8 +116,9 @@ open class McPicker: UIView {
         case `in`, out // swiftlint:disable:this identifier_name
     }
 
-    fileprivate var doneHandler:(_ selections: [Int:String]) -> Void = {_ in }
-    fileprivate var cancelHandler:() -> Void = { }
+    fileprivate var doneHandler: DoneHandler = {_ in }
+    fileprivate var cancelHandler: CancelHandler?
+    fileprivate var selectionChangedHandler: SelectionChangedHandler?
 
     private var appWindow: UIWindow {
         guard let window = UIApplication.shared.keyWindow else {
@@ -147,21 +152,27 @@ open class McPicker: UIView {
 
     // MARK: Show
     //
-    open class func show(data: [[String]], cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        McPicker(data:data).show(cancelHandler: cancelHandler, doneHandler: doneHandler)
+    open class func show(data: [[String]],
+                         doneHandler: @escaping DoneHandler,
+                         cancelHandler: CancelHandler? = nil,
+                         selectionChangedHandler: SelectionChangedHandler? = nil) {
+        McPicker(data:data).show(doneHandler: doneHandler, cancelHandler: cancelHandler, selectionChangedHandler: selectionChangedHandler)
     }
 
-    open class func show(data: [[String]], doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        McPicker(data:data).show(cancelHandler: {}, doneHandler: doneHandler)
+    open class func show(data: [[String]], doneHandler: @escaping DoneHandler) {
+        McPicker(data:data).show(doneHandler: doneHandler)
     }
 
-    open func show(doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
-        show(cancelHandler: {}, doneHandler: doneHandler)
+    open func show(doneHandler: @escaping DoneHandler) {
+        show(doneHandler: doneHandler, cancelHandler: nil, selectionChangedHandler: nil)
     }
 
-    open func show(cancelHandler:@escaping () -> Void, doneHandler:@escaping (_ selections: [Int:String]) -> Void) {
+    open func show(doneHandler: @escaping DoneHandler,
+                   cancelHandler: CancelHandler? = nil,
+                   selectionChangedHandler: SelectionChangedHandler? = nil) {
         self.doneHandler = doneHandler
         self.cancelHandler = cancelHandler
+        self.selectionChangedHandler = selectionChangedHandler
         animateViews(direction: .in)
     }
 
@@ -323,7 +334,7 @@ open class McPicker: UIView {
     }
 
     @objc internal func cancel() {
-        self.cancelHandler()
+        self.cancelHandler?()
         self.dismissViews()
     }
 
@@ -400,13 +411,14 @@ extension McPicker : UIPickerViewDelegate {
 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.pickerSelection[component] = pickerData[component][row]
+        self.selectionChangedHandler?(self.pickerSelection, component)
     }
 }
 
 extension McPicker : UIPopoverPresentationControllerDelegate {
 
     public func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-        self.cancelHandler()
+        self.cancelHandler?()
     }
 
     public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
