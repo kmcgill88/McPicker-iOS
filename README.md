@@ -17,18 +17,18 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 #### Short Syntax
 - Normal - (Slide up from bottom)
 ```swift
-McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections: [Int : String]) -> Void in
+McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  [weak self] (selections: [Int : String]) -> Void in
     if let name = selections[0] {
-        self.label.text = name
+        self?.label.text = name
     }
 }
 ```
 - As Popover
 ```swift
 let data: [[String]] = [["Kevin", "Lauren", "Kibby", "Stella"]]
-McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
+McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { [weak self] (selections: [Int : String]) -> Void in
     if let name = selections[0] {
-        self.label.text = name
+        self?.label.text = name
     }
 }
 ```
@@ -67,19 +67,24 @@ mcPicker.pickerSelectRowsForComponents = [
 if let barButton = sender as? UIBarButtonItem {
     // Show as Popover
     //
-    mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections: [Int : String]) -> Void in
+    mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { [weak self] (selections: [Int : String]) -> Void in
         if let prefix = selections[0], let name = selections[1] {
-            self.label.text = "\(prefix) \(name)"
+            self?.label.text = "\(prefix) \(name)"
         }
     }
 } else {
     // Show Normal
     //
-    mcPicker.show { selections in
-        if let prefix = selections[0], let name = selections[1] {
-            self.label.text = "\(prefix) \(name)"
+    mcPicker.show(doneHandler: { [weak self] (selections: [Int : String]) -> Void in
+        if let name = selections[0] {
+            self?.label.text = name
         }
-    }
+    }, cancelHandler: {
+        print("Canceled Styled Picker")
+    }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) -> Void  in
+        let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+        print("Component \(componentThatChanged) changed value to \(newSelection)")
+    })
 }
 ```
 
