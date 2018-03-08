@@ -89,7 +89,7 @@ class McPickerTests: XCTestCase {
         XCTAssertNil(mcPicker.showsSelectionIndicator)
     }
 
-    func testSetToolbarButtonsColorSetsCancelAndDone() {
+    func testSetToolbarButtons_colorSetsCancelAndDone() {
         // Given
         //
         let mcPicker = McPicker(data: data)
@@ -104,6 +104,66 @@ class McPickerTests: XCTestCase {
         //
         XCTAssertEqual(UIColor.purple, cancelBarButton.tintColor)
         XCTAssertEqual(UIColor.purple, doneBarButton.tintColor)
+    }
+
+    func testSetToolbarButtonsColorSetsCancelAndDone_setColorBeforeToolBarItems() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        mcPicker.toolbarButtonsColor = UIColor.purple
+
+        // When
+        //
+        let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
+        let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
+        let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!")
+        let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel)
+        mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, fireButton.tintColor)
+        XCTAssertEqual(UIColor.purple, cancelButton.tintColor)
+    }
+
+    func testSetToolbarDoneButtonsColor_setColorBeforeToolBarItems() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        mcPicker.toolbarDoneButtonColor = UIColor.purple
+
+        // When
+        //
+        let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
+        let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
+        let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!")
+        let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel)
+        mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
+        // Then
+        //
+        XCTAssertEqual(UIColor.purple, fireButton.tintColor)
+        XCTAssertNotEqual(UIColor.purple, cancelButton.tintColor)
+    }
+
+    func testSetToolbarCancelButtonsColor_setColorBeforeToolBarItems() {
+        // Given
+        //
+        let mcPicker = McPicker(data: data)
+        mcPicker.toolbarCancelButtonColor = UIColor.purple
+
+        // When
+        //
+        let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
+        let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
+        let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!")
+        let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel)
+        mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
+        // Then
+        //
+        XCTAssertNotEqual(UIColor.purple, fireButton.tintColor)
+        XCTAssertEqual(UIColor.purple, cancelButton.tintColor)
     }
 
     func testSetToolbarDoneButtonsColorSetsDone() {
@@ -173,6 +233,29 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
         XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
         XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+    }
+
+    func testSetToolbarItemsFont_afterToolbarItemsSet() {
+        // Given
+        //
+        let expectedFont = UIFont(name:"American Typewriter", size: 17)!
+        let mcPicker = McPicker(data: data)
+        mcPicker.toolbarItemsFont = expectedFont
+        let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
+        let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
+        let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!")
+        let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel)
+
+        // When
+        //
+        mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
+
+        // Then
+        //
+        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
     }
 
     func testSetPickerBackgroundColor() {
