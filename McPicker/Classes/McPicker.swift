@@ -61,9 +61,6 @@ open class McPicker: UIView {
             }
         }
     }
-    public var toolbarBarTintColor: UIColor? {
-        didSet { toolbar.barTintColor = toolbarBarTintColor }
-    }
     public var toolbarItemsFont: UIFont? {
         didSet {
             applyToolbarButtonItemsSettings { (barButtonItem) in
@@ -71,6 +68,9 @@ open class McPicker: UIView {
                 barButtonItem.setTitleTextAttributes([.font: toolbarItemsFont!], for: .selected)
             }
         }
+    }
+    public var toolbarBarTintColor: UIColor? {
+        didSet { toolbar.barTintColor = toolbarBarTintColor }
     }
     public var pickerBackgroundColor: UIColor? {
         didSet { picker.backgroundColor = pickerBackgroundColor }
@@ -259,6 +259,8 @@ open class McPicker: UIView {
 
     open func setToolbarItems(items: [McPickerBarButtonItem]) {
         toolbar.items = items
+
+        setToolbarProperties()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -365,6 +367,24 @@ open class McPicker: UIView {
         //
         for (index, element) in pickerData.enumerated() {
             pickerSelection[index] = element.first
+        }
+    }
+
+    private func setToolbarProperties() {
+        if let _toolbarButtonsColor = toolbarButtonsColor {
+            toolbarButtonsColor = _toolbarButtonsColor
+        }
+
+        if let _toolbarDoneButtonColor = toolbarDoneButtonColor {
+            toolbarDoneButtonColor = _toolbarDoneButtonColor
+        }
+
+        if let _toolbarCancelButtonColor = toolbarCancelButtonColor {
+            toolbarCancelButtonColor = _toolbarCancelButtonColor
+        }
+
+        if let _toolbarItemsFont = toolbarItemsFont {
+            toolbarItemsFont = _toolbarItemsFont
         }
     }
 
