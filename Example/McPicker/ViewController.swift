@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2017 Kevin McGill <kevin@mcgilldevtech.com>
+Copyright (c) 2017-2018 Kevin McGill <kevin@mcgilldevtech.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,37 +31,33 @@ class ViewController: UIViewController {
     ]
 
     @IBAction func showPressed(_ sender: Any) {
-/*
-        // Verbose Setup
-        //
-        let data:[[String]] = [
-            ["Mr", "Mrs", "Miss"],
-            ["Kevin", "Lauren", "Kibby", "Stella"]
-        ]
-        let picker = McPicker(data:data)
-        picker.show(cancelHandler: {
-            
-            // Do something interesting
-            //
-            print("Picker canceled.")
-            
-        }, doneHandler: { selections in
-            
-            // Selection(s) Made
-            //
-            if let prefix = selections[0], let name = selections[1] {
-                self.label.text = "\(prefix) \(name)"
+        /*
+            McPicker.show(data: data) { [weak self] (selections:[Int: String]) in
+                if let name = selections[0] {
+                    self?.label.text = name
+                }
             }
-        })
-*/
-
-        // Short hand
-        //
-        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections: [Int : String]) -> Void in
+        */
+        /*
+            McPicker.show(data: data, doneHandler: { [weak self] (selections) in
+                if let name = selections[0] {
+                    self?.label.text = name
+                }
+            }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) in
+                let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+                print("Component \(componentThatChanged) changed value to \(newSelection)")
+            })
+         */
+        McPicker.show(data: data, doneHandler: { [weak self] (selections: [Int:String]) in
             if let name = selections[0] {
-                self.label.text = name
+                self?.label.text = name
             }
-        }
+        }, cancelHandler: {
+            print("Canceled Default Picker")
+        }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) in
+            let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+            print("Component \(componentThatChanged) changed value to \(newSelection)")
+        })
     }
 
     @IBAction func styledPicker(_ sender: Any) {
@@ -97,43 +93,52 @@ class ViewController: UIViewController {
         if let barButton = sender as? UIBarButtonItem {
             // Show as Popover
             //
-            mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { (selections: [Int : String]) -> Void in
+            mcPicker.showAsPopover(fromViewController: self, barButtonItem: barButton) { [weak self] (selections: [Int : String]) -> Void in
                 if let prefix = selections[0], let name = selections[1] {
-                    self.label.text = "\(prefix) \(name)"
+                    self?.label.text = "\(prefix) \(name)"
                 }
             }
         } else {
             // Show Normal
             //
-            mcPicker.show { selections in
-                if let prefix = selections[0], let name = selections[1] {
-                    self.label.text = "\(prefix) \(name)"
+            /*
+                mcPicker.show { [weak self] selections in
+                    if let prefix = selections[0], let name = selections[1] {
+                        self?.label.text = "\(prefix) \(name)"
+                    }
                 }
-            }
+             */
+            mcPicker.show(doneHandler: { [weak self] (selections: [Int : String]) -> Void in
+                if let name = selections[0] {
+                    self?.label.text = name
+                }
+            }, cancelHandler: {
+                print("Canceled Styled Picker")
+            }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) -> Void  in
+                let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+                print("Component \(componentThatChanged) changed value to \(newSelection)")
+            })
         }
     }
 
     @IBAction func popOverPicker(_ sender: UIButton) {
-
-        McPicker.showAsPopover(data:data, fromViewController: self, sourceView: sender, cancelHandler: { () -> Void in
-
-            print("Canceled Popover")
-
-        }, doneHandler: { (selections: [Int : String]) -> Void in
-
-            print("Done with Popover")
+        McPicker.showAsPopover(data:data, fromViewController: self, sourceView: sender, doneHandler: { [weak self] (selections: [Int : String]) -> Void in
             if let name = selections[0] {
-                self.label.text = name
+                self?.label.text = name
             }
+        }, cancelHandler: { () -> Void in
+            print("Canceled Popover")
+        }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) -> Void  in
+            let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+            print("Component \(componentThatChanged) changed value to \(newSelection)")
         })
     }
 
     @IBAction func pressedBarButtonItem(_ sender: UIBarButtonItem) {
-
-        McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { (selections: [Int : String]) -> Void in
+        McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: sender) { [weak self] (selections: [Int : String]) -> Void in
             print("Done with Popover")
             if let name = selections[0] {
-                self.label.text = name
+                self?.label.text = name
             }
         }
     }
