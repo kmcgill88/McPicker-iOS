@@ -199,7 +199,7 @@ class McPickerTests: XCTestCase {
                 self.direction = direction
             }
 
-            override func show(cancelHandler: @escaping () -> Void, doneHandler: @escaping ([Int : String]) -> Void) {
+            override open func show(doneHandler: @escaping DoneHandler) {
                 animateViews(direction: .in)
                 calledShow = true
             }
@@ -208,7 +208,7 @@ class McPickerTests: XCTestCase {
 
         // When
         //
-        mcPicker.show(cancelHandler: {}, doneHandler: { (_: [Int : String]) in })
+        mcPicker.show(doneHandler: { (_: [Int : String]) in })
         XCTAssertFalse(mcPicker.isPopoverMode)
         XCTAssertEqual(McPicker.AnimationDirection.in, mcPicker.direction)
         mcPicker.dismissViews()

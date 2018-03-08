@@ -31,37 +31,33 @@ class ViewController: UIViewController {
     ]
 
     @IBAction func showPressed(_ sender: Any) {
-/*
-        // Verbose Setup
-        //
-        let data:[[String]] = [
-            ["Mr", "Mrs", "Miss"],
-            ["Kevin", "Lauren", "Kibby", "Stella"]
-        ]
-        let picker = McPicker(data:data)
-        picker.show(cancelHandler: {
-            
-            // Do something interesting
-            //
-            print("Picker canceled.")
-            
-        }, doneHandler: { selections in
-            
-            // Selection(s) Made
-            //
-            if let prefix = selections[0], let name = selections[1] {
-                self.label.text = "\(prefix) \(name)"
+        /*
+            McPicker.show(data: data) { (selections:[Int: String]) in
+                if let name = selections[0] {
+                    self.label.text = name
+                }
             }
-        })
-*/
-
-        // Short hand
-        //
-        McPicker.show(data: [["Kevin", "Lauren", "Kibby", "Stella"]]) {  (selections: [Int : String]) -> Void in
+        */
+        /*
+            McPicker.show(data: data, doneHandler: { (selections) in
+                if let name = selections[0] {
+                    self.label.text = name
+                }
+            }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) in
+                let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+                print("Component \(componentThatChanged) changed value to \(newSelection)")
+            })
+         */
+        McPicker.show(data: data, doneHandler: { (selections: [Int:String]) in
             if let name = selections[0] {
                 self.label.text = name
             }
-        }
+        }, cancelHandler: {
+            print("Canceled Default Picker")
+        }, selectionChangedHandler: { (selections: [Int:String], componentThatChanged: Int) in
+            let newSelection = selections[componentThatChanged] ?? "Failed to get new selection!"
+            print("Component \(componentThatChanged) changed value to \(newSelection)")
+        })
     }
 
     @IBAction func styledPicker(_ sender: Any) {
