@@ -25,10 +25,27 @@ import McPicker
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var textField: McTextField!
     @IBOutlet weak var label: UILabel!
     let data: [[String]] = [
         ["Kevin", "Lauren", "Kibby", "Stella"]
     ]
+
+    override func viewDidLoad() {
+        let mcInputView = McPicker(data: data)
+        mcInputView.backgroundColor = .purple
+        mcInputView.backgroundColorAlpha = 0.50
+        textField.inputViewMcPicker = mcInputView
+        textField.doneHandler = { [weak textField] (selections) in
+            textField?.text = selections[0]!
+        }
+        textField.selectionChangedHandler = { [weak textField] (selections, componentThatChanged) in
+            textField?.text = selections[componentThatChanged]!
+        }
+        textField.cancelHandler = { [weak textField] in
+            textField?.text = "Cancelled."
+        }
+    }
 
     @IBAction func showPressed(_ sender: Any) {
         /*
@@ -85,6 +102,9 @@ class ViewController: UIViewController {
         mcPicker.toolbarButtonsColor = .white
         mcPicker.toolbarBarTintColor = .darkGray
         mcPicker.pickerBackgroundColor = .gray
+        mcPicker.backgroundColor = .gray
+        mcPicker.backgroundColorAlpha = 0.50
+
         mcPicker.pickerSelectRowsForComponents = [
             0: [3: true],
             1: [2: true]
@@ -109,8 +129,8 @@ class ViewController: UIViewController {
                 }
              */
             mcPicker.show(doneHandler: { [weak self] (selections: [Int : String]) -> Void in
-                if let name = selections[0] {
-                    self?.label.text = name
+                if let prefix = selections[0], let name = selections[1] {
+                    self?.label.text = "\(prefix) \(name)"
                 }
             }, cancelHandler: {
                 print("Canceled Styled Picker")

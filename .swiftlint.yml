@@ -8,3 +8,4 @@ type_body_length:
   - 400 # error
 disabled_rules: # rule identifiers to exclude from running
   - superfluous_disable_command
+  - identifier_name

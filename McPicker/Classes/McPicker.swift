@@ -25,6 +25,7 @@ import UIKit
 open class McPicker: UIView {
 
     open var fontSize: CGFloat = 25.0
+    open var backgroundColorAlpha: CGFloat?
 
     /**
         The custom label to use with the picker.
@@ -102,6 +103,9 @@ open class McPicker: UIView {
     internal var popOverContentSize: CGSize {
         return CGSize(width: Constant.pickerHeight + Constant.toolBarHeight, height: Constant.pickerHeight + Constant.toolBarHeight)
     }
+    internal var _backgroundColorAlpha: CGFloat {
+        return self.backgroundColorAlpha ?? Constant.backgroundColorAlpha
+    }
     internal var pickerSelection: [Int:String] = [:]
     internal var pickerData: [[String]] = []
     internal var numberOfComponents: Int {
@@ -115,6 +119,13 @@ open class McPicker: UIView {
     internal enum AnimationDirection {
         case `in`, out // swiftlint:disable:this identifier_name
     }
+    internal enum Constant {
+        static let backgroundColorAlpha: CGFloat =  0.75
+        static let pickerHeight: CGFloat = 216.0
+        static let toolBarHeight: CGFloat = 44.0
+        static let animationSpeed: TimeInterval = 0.25
+        static let barButtonFixedSpacePadding: CGFloat = 0.02
+    }
 
     fileprivate var doneHandler: DoneHandler = {_ in }
     fileprivate var cancelHandler: CancelHandler?
@@ -126,14 +137,6 @@ open class McPicker: UIView {
             return UIWindow()
         }
         return window
-    }
-
-    private enum Constant {
-        static let pickerHeight: CGFloat = 216.0
-        static let toolBarHeight: CGFloat = 44.0
-        static let backgroundAlpha: CGFloat =  0.75
-        static let animationSpeed: TimeInterval = 0.25
-        static let barButtonFixedSpacePadding: CGFloat = 0.02
     }
 
     convenience public init(data: [[String]]) {
@@ -300,11 +303,12 @@ open class McPicker: UIView {
 
     internal func animateViews(direction: AnimationDirection) {
         var backgroundFrame = backgroundView.frame
+        let animateColor = self.backgroundColor ?? .black
 
         if direction == .in {
             // Start transparent
             //
-            self.backgroundColor = UIColor.black.withAlphaComponent(0)
+            self.backgroundColor = animateColor.withAlphaComponent(0)
 
             // Start picker off the bottom of the screen
             //
@@ -319,7 +323,7 @@ open class McPicker: UIView {
             // Animate things on screen
             //
             UIView.animate(withDuration: Constant.animationSpeed, animations: {
-                self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
+                self.backgroundColor = animateColor.withAlphaComponent(self._backgroundColorAlpha)
                 backgroundFrame.origin.y = self.appWindow.bounds.size.height - self.backgroundView.bounds.height
                 self.backgroundView.frame = backgroundFrame
             })
@@ -327,7 +331,7 @@ open class McPicker: UIView {
             // Animate things off screen
             //
             UIView.animate(withDuration: Constant.animationSpeed, animations: {
-                self.backgroundColor = UIColor.black.withAlphaComponent(0)
+                self.backgroundColor = animateColor.withAlphaComponent(0)
                 backgroundFrame.origin.y = self.appWindow.bounds.size.height
                 self.backgroundView.frame = backgroundFrame
             }, completion: { _ in
@@ -355,7 +359,7 @@ open class McPicker: UIView {
         setToolbarItems(items: [fixedSpace, McPickerBarButtonItem.cancel(mcPicker: self),
                                 McPickerBarButtonItem.flexibleSpace(), McPickerBarButtonItem.done(mcPicker: self), fixedSpace])
 
-        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
+//        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
         backgroundView.backgroundColor = UIColor.white
 
         picker.delegate = self
@@ -442,7 +446,6 @@ extension McPicker : UIPickerViewDelegate {
 }
 
 extension McPicker : UIPopoverPresentationControllerDelegate {
-
     public func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
         self.cancelHandler?()
     }
@@ -459,11 +462,25 @@ extension McPicker : UIPopoverPresentationControllerDelegate {
 }
 
 extension McPicker : UIGestureRecognizerDelegate {
-
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if let goodView = touch.view {
             return goodView == self
         }
         return false
+    }
+}
+
+extension McPicker : UITextFieldDelegate {
+    public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if let mcTextField = textField as? McTextField {
+            if mcTextField.text == nil || mcTextField.text == "" {
+                mcTextField.text = self.pickerSelection[0]
+            }
+            self.show(doneHandler: mcTextField.doneHandler,
+                      cancelHandler: mcTextField.cancelHandler,
+                      selectionChangedHandler: mcTextField.selectionChangedHandler)
+            return false
+        }
+        return true
     }
 }

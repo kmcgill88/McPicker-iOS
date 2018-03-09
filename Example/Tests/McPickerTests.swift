@@ -72,7 +72,8 @@ class McPickerTests: XCTestCase {
         XCTAssertEqual(doneBarButton.target as! TestMcPicker, mcPicker)
         XCTAssertEqual(doneBarButton.action!, #selector(TestMcPicker.done))
 
-        XCTAssertEqual(mcPicker.backgroundColor, UIColor.black.withAlphaComponent(0.75))
+        XCTAssertNil(mcPicker.backgroundColor)
+        XCTAssertEqual(mcPicker._backgroundColorAlpha, McPicker.Constant.backgroundColorAlpha)
         XCTAssertEqual(mcPicker.backgroundView.backgroundColor, UIColor.white)
 
         XCTAssertEqual(mcPicker, mcPicker.picker.delegate as! McPicker)
