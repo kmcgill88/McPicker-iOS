@@ -473,9 +473,7 @@ extension McPicker : UIGestureRecognizerDelegate {
 extension McPicker : UITextFieldDelegate {
     public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if let mcTextField = textField as? McTextField {
-            if mcTextField.text == nil || mcTextField.text == "" {
-                mcTextField.text = self.pickerSelection[0]
-            }
+            mcTextField.textFieldWillBeginEditingHandler?(self.pickerSelection)
             self.show(doneHandler: mcTextField.doneHandler,
                       cancelHandler: mcTextField.cancelHandler,
                       selectionChangedHandler: mcTextField.selectionChangedHandler)

@@ -25,6 +25,7 @@ open class McTextField: UITextField {
     public var doneHandler: McPicker.DoneHandler = { _ in }
     public var cancelHandler: McPicker.CancelHandler?
     public var selectionChangedHandler: McPicker.SelectionChangedHandler?
+    public var textFieldWillBeginEditingHandler: ((_ selections: [Int:String]) -> Void)?
 
     public var inputViewMcPicker: McPicker? {
         didSet {

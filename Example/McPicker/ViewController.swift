@@ -33,7 +33,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         let mcInputView = McPicker(data: data)
-        mcInputView.backgroundColor = .purple
+        mcInputView.backgroundColor = .blue
         mcInputView.backgroundColorAlpha = 0.50
         textField.inputViewMcPicker = mcInputView
         textField.doneHandler = { [weak textField] (selections) in
@@ -44,6 +44,11 @@ class ViewController: UIViewController {
         }
         textField.cancelHandler = { [weak textField] in
             textField?.text = "Cancelled."
+        }
+        textField.textFieldWillBeginEditingHandler = { [weak textField] (selections) in
+            if textField?.text == "" {
+                textField?.text = selections[0]
+            }
         }
     }
 
