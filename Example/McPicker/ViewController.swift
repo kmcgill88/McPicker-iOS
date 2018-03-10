@@ -33,8 +33,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         let mcInputView = McPicker(data: data)
-        mcInputView.backgroundColor = .blue
-        mcInputView.backgroundColorAlpha = 0.50
+        mcInputView.backgroundColor = .gray
+        mcInputView.backgroundColorAlpha = 0.25
         textField.inputViewMcPicker = mcInputView
         textField.doneHandler = { [weak textField] (selections) in
             textField?.text = selections[0]!
@@ -47,6 +47,7 @@ class ViewController: UIViewController {
         }
         textField.textFieldWillBeginEditingHandler = { [weak textField] (selections) in
             if textField?.text == "" {
+                // Selections always default to the first value per component
                 textField?.text = selections[0]
             }
         }
@@ -83,25 +84,24 @@ class ViewController: UIViewController {
     }
 
     @IBAction func styledPicker(_ sender: Any) {
+        let data: [[String]] = [
+            ["Sir", "Mr", "Mrs", "Miss"],
+            ["Kevin", "Lauren", "Kibby", "Stella"]
+        ]
+        let mcPicker = McPicker(data: data)
 
         let customLabel = UILabel()
         customLabel.textAlignment = .center
         customLabel.textColor = .white
         customLabel.font = UIFont(name:"American Typewriter", size: 30)!
+        mcPicker.label = customLabel // Set your custom label
 
-        let data: [[String]] = [
-            ["Sir", "Mr", "Mrs", "Miss"],
-            ["Kevin", "Lauren", "Kibby", "Stella"]
-        ]
-
-        let mcPicker = McPicker(data: data)
         let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
         let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
         let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!") // Set custom Text
         let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel) // or system items
         mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
 
-        mcPicker.label = customLabel // Set your custom label
         mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
 
         mcPicker.toolbarButtonsColor = .white
