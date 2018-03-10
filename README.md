@@ -5,14 +5,14 @@
 [![Platform](https://img.shields.io/cocoapods/p/McPicker.svg?style=flat)](http://cocoapods.org/pods/McPicker)
 
 ## About
-McPicker is a UIPickerView drop-in solution with animations that is rotation ready. The more string arrays you pass, the more picker components you'll get. You can set custom label or use the defaults. McPicker can be presented as a Popover on iPhone or iPad using `showAsPopover` or use the default slide up and down style `show`.
+McPicker is a UIPickerView drop-in solution with animations that is rotation ready. The more string arrays you pass, the more picker components you'll get. You can set custom label or use the defaults. McPicker can be presented as a Popover on iPhone or iPad using `showAsPopover`, as an `inputView` using `McTextField` or use the default slide up and down style `show`.
 
 `showAsPopover` can be used to display from a `UIView` or `UIBarButtonItem`. `showAsPopover` will always be presented as a Popover, even when used on an iPhone.
 
 ## Usage
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![](http://mcgilldevtech.com/img/github/mcpicker/mcpicker-0.3.0-ios.gif)
+![](https://mcgilldevtech.com/img/github/mcpicker/mcpicker-1.0.0.gif)
 
 #### Short Syntax
 - Normal - (Slide up from bottom)
