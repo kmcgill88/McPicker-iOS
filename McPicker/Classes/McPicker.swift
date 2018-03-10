@@ -359,7 +359,6 @@ open class McPicker: UIView {
         setToolbarItems(items: [fixedSpace, McPickerBarButtonItem.cancel(mcPicker: self),
                                 McPickerBarButtonItem.flexibleSpace(), McPickerBarButtonItem.done(mcPicker: self), fixedSpace])
 
-//        self.backgroundColor = UIColor.black.withAlphaComponent(Constant.backgroundAlpha)
         backgroundView.backgroundColor = UIColor.white
 
         picker.delegate = self
