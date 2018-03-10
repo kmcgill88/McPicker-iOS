@@ -102,7 +102,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="label" destination="fEx-GG-5Tp" id="alK-q4-pWv"/>
-                        <outlet property="textField" destination="r6o-nf-hyx" id="rqF-zy-X7O"/>
+                        <outlet property="mcTextField" destination="r6o-nf-hyx" id="8b2-vH-yzf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

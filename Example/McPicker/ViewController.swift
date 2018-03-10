@@ -25,7 +25,7 @@ import McPicker
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var textField: McTextField!
+    @IBOutlet weak var mcTextField: McTextField!
     @IBOutlet weak var label: UILabel!
     let data: [[String]] = [
         ["Kevin", "Lauren", "Kibby", "Stella"]
@@ -35,20 +35,20 @@ class ViewController: UIViewController {
         let mcInputView = McPicker(data: data)
         mcInputView.backgroundColor = .gray
         mcInputView.backgroundColorAlpha = 0.25
-        textField.inputViewMcPicker = mcInputView
-        textField.doneHandler = { [weak textField] (selections) in
-            textField?.text = selections[0]!
+        mcTextField.inputViewMcPicker = mcInputView
+        mcTextField.doneHandler = { [weak mcTextField] (selections) in
+            mcTextField?.text = selections[0]!
         }
-        textField.selectionChangedHandler = { [weak textField] (selections, componentThatChanged) in
-            textField?.text = selections[componentThatChanged]!
+        mcTextField.selectionChangedHandler = { [weak mcTextField] (selections, componentThatChanged) in
+            mcTextField?.text = selections[componentThatChanged]!
         }
-        textField.cancelHandler = { [weak textField] in
-            textField?.text = "Cancelled."
+        mcTextField.cancelHandler = { [weak mcTextField] in
+            mcTextField?.text = "Cancelled."
         }
-        textField.textFieldWillBeginEditingHandler = { [weak textField] (selections) in
-            if textField?.text == "" {
+        mcTextField.textFieldWillBeginEditingHandler = { [weak mcTextField] (selections) in
+            if mcTextField?.text == "" {
                 // Selections always default to the first value per component
-                textField?.text = selections[0]
+                mcTextField?.text = selections[0]
             }
         }
     }
@@ -112,7 +112,7 @@ class ViewController: UIViewController {
 
         mcPicker.pickerSelectRowsForComponents = [
             0: [3: true],
-            1: [2: true]
+            1: [2: true] // [Component: [Row: isAnimated]
         ]
 
         if let barButton = sender as? UIBarButtonItem {

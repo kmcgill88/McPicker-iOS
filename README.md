@@ -12,7 +12,7 @@ McPicker is a UIPickerView drop-in solution with animations that is rotation rea
 ## Usage
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![](https://mcgilldevtech.com/img/github/mcpicker/mcpicker-1.0.0-ios.gif)
+![](https://mcgilldevtech.com/img/github/mcpicker/mcpicker-1.0.0-3.gif)
 
 #### Short Syntax
 - Normal - (Slide up from bottom)
@@ -34,26 +34,27 @@ McPicker.showAsPopover(data: data, fromViewController: self, barButtonItem: send
 ```
 - As an `inputView` via `McTextField`
 ```swift
-@IBOutlet weak var textField: McTextField!
+@IBOutlet weak var mcTextField: McTextField!
 override func viewDidLoad() {
     let data: [[String]] = [["Kevin", "Lauren", "Kibby", "Stella"]]
     let mcInputView = McPicker(data: data)
     mcInputView.backgroundColor = .gray
     mcInputView.backgroundColorAlpha = 0.25
-    textField.inputViewMcPicker = mcInputView
-    textField.doneHandler = { [weak textField] (selections) in
-        textField?.text = selections[0]!
+    mcTextField.inputViewMcPicker = mcInputView
+
+    mcTextField.doneHandler = { [weak mcTextField] (selections) in
+        mcTextField?.text = selections[0]!
     }
-    textField.selectionChangedHandler = { [weak textField] (selections, componentThatChanged) in
-        textField?.text = selections[componentThatChanged]!
+    mcTextField.selectionChangedHandler = { [weak mcTextField] (selections, componentThatChanged) in
+        mcTextField?.text = selections[componentThatChanged]!
     }
-    textField.cancelHandler = { [weak textField] in
-        textField?.text = "Cancelled."
+    mcTextField.cancelHandler = { [weak mcTextField] in
+        mcTextField?.text = "Cancelled."
     }
-    textField.textFieldWillBeginEditingHandler = { [weak textField] (selections) in
-        if textField?.text == "" {
+    mcTextField.textFieldWillBeginEditingHandler = { [weak mcTextField] (selections) in
+        if mcTextField?.text == "" {
             // Selections always default to the first value per component
-            textField?.text = selections[0]
+            mcTextField?.text = selections[0]
         }
     }
 }
@@ -77,19 +78,18 @@ let fixedSpace = McPickerBarButtonItem.fixedSpace(width: 20.0)
 let flexibleSpace = McPickerBarButtonItem.flexibleSpace()
 let fireButton = McPickerBarButtonItem.done(mcPicker: mcPicker, title: "Fire!!!") // Set custom Text
 let cancelButton = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: .cancel) // or system items
+// Set custom toolbar items
 mcPicker.setToolbarItems(items: [fixedSpace, cancelButton, flexibleSpace, fireButton, fixedSpace])
 
 mcPicker.toolbarItemsFont = UIFont(name:"American Typewriter", size: 17)!
-
 mcPicker.toolbarButtonsColor = .white
 mcPicker.toolbarBarTintColor = .darkGray
-mcPicker.pickerBackgroundColor = .gray
 mcPicker.backgroundColor = .gray
 mcPicker.backgroundColorAlpha = 0.50
-
+mcPicker.pickerBackgroundColor = .gray
 mcPicker.pickerSelectRowsForComponents = [
     0: [3: true],
-    1: [2: true]
+    1: [2: true] // [Component: [Row: isAnimated]
 ]
 
 if let barButton = sender as? UIBarButtonItem {
