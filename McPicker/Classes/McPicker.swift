@@ -266,6 +266,7 @@ open class McPicker: UIView {
         setToolbarProperties()
     }
 
+    #if swift(>=4.2)
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
 
@@ -275,6 +276,18 @@ open class McPicker: UIView {
             NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         }
     }
+    #else
+    #warning("Method will be deprecated to Swift 4.2 support only")
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        
+        if newWindow != nil {
+            NotificationCenter.default.addObserver(self, selector: #selector(McPicker.sizeViews), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        } else {
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        }
+    }
+    #endif
 
     @objc internal func sizeViews() {
         let size = isPopoverMode ? popOverContentSize : self.appWindow.bounds.size
