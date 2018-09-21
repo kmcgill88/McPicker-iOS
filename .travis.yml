@@ -9,10 +9,10 @@ env:
   - LANG=en_US.UTF-8
   matrix:
     - DESTINATION="OS=12.0,name=iPhone XS" SDK="iphonesimulator12.0" POD_LINT="YES" SWIFT_LINT="YES"
-    - DESTINATION="OS=11.0,name=iPhone 8" SDK="iphonesimulator11.0" POD_LINT="YES" SWIFT_LINT="YES"
-    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
-    - DESTINATION="OS=9.3,name=iPhone 6" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
-    - DESTINATION="OS=8.4,name=iPhone 4S" SDK="iphonesimulator11.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=11.4,name=iPhone 8" SDK="iphonesimulator12.0" POD_LINT="YES" SWIFT_LINT="YES"
+    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK="iphonesimulator12.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=9.3,name=iPhone 6" SDK="iphonesimulator12.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=8.4,name=iPhone 4S" SDK="iphonesimulator12.0" POD_LINT="NO" SWIFT_LINT="NO"
 
 before_install:
   - brew install swiftlint
