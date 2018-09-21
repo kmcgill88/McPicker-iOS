@@ -135,6 +135,14 @@ it, simply add the following line to your Podfile:
 pod "McPicker"
 ```
 
+### Swift 4.2 Support
+
+For Swift 4.2 support, please use version `2.0.0`.
+
+```ruby
+pod 'McPicker', '~> 2.0.0'
+```
+
 ## Author
 
 Kevin McGill, kevin@mcgilldevtech.com
