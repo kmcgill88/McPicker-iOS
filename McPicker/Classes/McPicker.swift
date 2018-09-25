@@ -270,9 +270,9 @@ open class McPicker: UIView {
         super.willMove(toWindow: newWindow)
 
         if newWindow != nil {
-            NotificationCenter.default.addObserver(self, selector: #selector(McPicker.sizeViews), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(McPicker.sizeViews), name: UIDevice.orientationDidChangeNotification, object: nil)
         } else {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+            NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         }
     }
 

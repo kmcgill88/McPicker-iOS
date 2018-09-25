@@ -33,7 +33,7 @@ open class McPickerBarButtonItem: UIBarButtonItem {
      
         - returns: McPickerBarButtonItem
      */
-    public class func done(mcPicker: McPicker, title: String? = nil, barButtonSystemItem: UIBarButtonSystemItem = .done) -> McPickerBarButtonItem {
+    public class func done(mcPicker: McPicker, title: String? = nil, barButtonSystemItem: UIBarButtonItem.SystemItem = .done) -> McPickerBarButtonItem {
 
         if let buttonTitle = title {
             return self.init(title: buttonTitle, style: .plain, target: mcPicker, action: #selector(McPicker.done))
@@ -51,7 +51,7 @@ open class McPickerBarButtonItem: UIBarButtonItem {
          
          - returns: McPickerBarButtonItem
      */
-    public class func cancel(mcPicker: McPicker, title: String? = nil, barButtonSystemItem: UIBarButtonSystemItem = .cancel) -> McPickerBarButtonItem {
+    public class func cancel(mcPicker: McPicker, title: String? = nil, barButtonSystemItem: UIBarButtonItem.SystemItem = .cancel) -> McPickerBarButtonItem {
 
         if let buttonTitle = title {
             return self.init(title: buttonTitle, style: .plain, target: mcPicker, action: #selector(McPicker.cancel))
