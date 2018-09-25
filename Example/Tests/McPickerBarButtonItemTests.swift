@@ -40,7 +40,7 @@ class McPickerBarButtonItemTests: XCTestCase {
     }
 
     func testInitDone_noTitleCustomStyle() {
-        let item = McPickerBarButtonItem.done(mcPicker: mcPicker, barButtonSystemItem: UIBarButtonSystemItem.save)
+        let item = McPickerBarButtonItem.done(mcPicker: mcPicker, barButtonSystemItem: UIBarButtonItem.SystemItem.save)
 
         XCTAssertNil(item.title)
         XCTAssertTrue(item.style == .plain)
@@ -68,7 +68,7 @@ class McPickerBarButtonItemTests: XCTestCase {
     }
 
     func testInitCancel_noTitleCustomStyle() {
-        let item = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: UIBarButtonSystemItem.save)
+        let item = McPickerBarButtonItem.cancel(mcPicker: mcPicker, barButtonSystemItem: UIBarButtonItem.SystemItem.save)
 
         XCTAssertNil(item.title)
         XCTAssertTrue(item.style == .plain)
