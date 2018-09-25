@@ -1,16 +1,16 @@
 PODS:
-  - McPicker (0.5.2)
+  - McPicker (2.0.0)
 
 DEPENDENCIES:
   - McPicker (from `../`)
 
 EXTERNAL SOURCES:
   McPicker:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  McPicker: 05016caf44615afc93617b9effa4f1648f3223d6
+  McPicker: 184bd2403f48f1b69e8384d2dbcd4fcff4c0df5f
 
 PODFILE CHECKSUM: 7f68cc3d721452977903943f3af774acc3f68ed4
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.0

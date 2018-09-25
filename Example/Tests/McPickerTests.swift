@@ -230,10 +230,10 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .normal)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .normal)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelBarButton.titleTextAttributes(for: .selected)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, doneBarButton.titleTextAttributes(for: .selected)?[NSAttributedString.Key.font] as! UIFont)
     }
 
     func testSetToolbarItemsFont_afterToolbarItemsSet() {
@@ -253,10 +253,10 @@ class McPickerTests: XCTestCase {
 
         // Then
         //
-        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
-        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .selected)?[NSAttributedStringKey.font.rawValue] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .normal)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .normal)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, cancelButton.titleTextAttributes(for: .selected)?[NSAttributedString.Key.font] as! UIFont)
+        XCTAssertEqual(expectedFont, fireButton.titleTextAttributes(for: .selected)?[NSAttributedString.Key.font] as! UIFont)
     }
 
     func testSetPickerBackgroundColor() {
