@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'McPicker'
-  s.version          = '2.0.0'
+  s.version          = '2.0.1'
   s.summary          = 'McPicker is a customizable, closure driven UIPickerView drop-in solution with animations that is rotation ready.'
   s.swift_version    = '4.2'
 
