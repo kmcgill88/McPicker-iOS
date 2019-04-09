@@ -439,8 +439,10 @@ extension McPicker : UIPickerViewDelegate {
     }
 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.pickerSelection[component] = pickerData[component][row]
-        self.selectionChangedHandler?(self.pickerSelection, component)
+         if !pickerData[component].isEmpty {
+            self.pickerSelection[component] = pickerData[component][row]
+            self.selectionChangedHandler?(self.pickerSelection, component)
+        }
     }
 }
 
