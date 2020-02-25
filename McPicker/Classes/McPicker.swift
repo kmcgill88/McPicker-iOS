@@ -437,6 +437,36 @@ extension McPicker : UIPickerViewDelegate {
 
         return pickerLabel!
     }
+    
+    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        guard let goodLabel = label, pickerData.count == 1 else {
+            return 50.0
+        }
+        return self.heightForView(pickerData[0][component], font: goodLabel.font, width: pickerView.frame.size.width - 20, actualHeight: goodLabel.frame.size.height)
+    }
+    
+    // MARK: CALCULATE HEIGHT OF VIEW BASED ON STRING LENGHT
+    /// CALCULATE HEIGHT OF VIEW BASED ON STRING LENGHT
+    ///
+    /// - Parameters:
+    ///   - text: text whose height is to be calculate
+    ///   - font: Font for calculation
+    ///   - width: Label Width
+    ///   - actualHeight: actual Height of Label
+    /// - Returns: Calculated height of table View
+    func heightForView(_ text: String, font: UIFont, width: CGFloat, actualHeight: CGFloat) -> CGFloat {
+        let label: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = font
+        label.text = text
+        label.sizeToFit()
+        var height: CGFloat = 40.0
+        if actualHeight != 0 {
+            height = actualHeight
+        }
+        return max(label.frame.height, height)
+    }
 
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
          if !pickerData[component].isEmpty {
