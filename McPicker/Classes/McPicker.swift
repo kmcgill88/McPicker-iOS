@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2018 Kevin McGill <kevin@mcgilldevtech.com>
+ Copyright (c) 2017-2020 Kevin McGill <kevin@mcgilldevtech.com>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -350,7 +350,7 @@ open class McPicker: UIView {
         self.dismissViews()
     }
 
-    private func setup() {
+    public func setup() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(McPicker.cancel))
         tapGestureRecognizer.delegate = self
         self.addGestureRecognizer(tapGestureRecognizer)

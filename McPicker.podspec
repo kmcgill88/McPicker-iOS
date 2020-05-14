@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = 'McPicker'
-  s.version          = '2.0.1'
+  s.version          = '3.0.0'
   s.summary          = 'McPicker is a customizable, closure driven UIPickerView drop-in solution with animations that is rotation ready.'
-  s.swift_version    = '4.2'
+  s.swift_version    = '5.2'
 
   s.description      = <<-DESC
 McPicker is a UIPickerView drop-in solution with animations that is rotation ready. The more string arrays you pass, the more picker components you'll get. You can set custom label or use the defaults. McPicker can be presented as a Popover on iPhone or iPad using showAsPopover, as an inputView using McTextField or use the default slide up and down style show.

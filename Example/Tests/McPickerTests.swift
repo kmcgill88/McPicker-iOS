@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2017-2018 Kevin McGill <kevin@mcgilldevtech.com>
+ Copyright (c) 2017-2020 Kevin McGill <kevin@mcgilldevtech.com>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,11 @@ class McPickerTests: XCTestCase {
         // Given
         //
         class TestMcPicker: McPicker {
+            convenience public init(data: [[String]]) {
+                self.init(frame: CGRect.zero)
+                self.pickerData = data
+                self.setup()
+            }
             var sizeViewsCalled = false
             override func sizeViews() {
                 sizeViewsCalled = true
@@ -277,6 +282,11 @@ class McPickerTests: XCTestCase {
         // Given
         //
         class TestMcPicker: McPicker {
+            convenience public init(data: [[String]]) {
+                self.init(frame: CGRect.zero)
+                self.pickerData = data
+                self.setup()
+            }
             var direction: McPicker.AnimationDirection?
             var calledShow = false
             override func animateViews(direction: McPicker.AnimationDirection) {
@@ -313,6 +323,11 @@ class McPickerTests: XCTestCase {
             }
         }
         class TestMcPicker: McPicker {
+            convenience public init(data: [[String]]) {
+                self.init(frame: CGRect.zero)
+                self.pickerData = data
+                self.setup()
+            }
             var calledAnimateViews = false
             override func animateViews(direction: McPicker.AnimationDirection) {
                 calledAnimateViews = true
