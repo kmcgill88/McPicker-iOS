@@ -60,11 +60,11 @@ open class McPickerBarButtonItem: UIBarButtonItem {
         return self.init(barButtonSystemItem: barButtonSystemItem, target: mcPicker, action: #selector(McPicker.cancel))
     }
 
-    public class func flexibleSpace() -> McPickerBarButtonItem {
+    public override class func flexibleSpace() -> McPickerBarButtonItem {
         return self.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }
 
-    public class func fixedSpace(width: CGFloat) -> McPickerBarButtonItem {
+    public override class func fixedSpace(width: CGFloat) -> McPickerBarButtonItem {
         let fixedSpace =  self.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = width
         return fixedSpace
