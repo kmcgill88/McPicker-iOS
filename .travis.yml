@@ -1,3 +1,4 @@
+# https://docs.travis-ci.com/user/reference/osx/
 osx_image: xcode12
 language: swift
 # cache: cocoapods
@@ -8,13 +9,9 @@ env:
   - LC_CTYPE=en_US.UTF-8
   - LANG=en_US.UTF-8
   matrix:
-    - DESTINATION="OS=14.0,name=iPhone 11 Pro Max" SDK="iphonesimulator14.0" POD_LINT="YES" SWIFT_LINT="YES"
-    - DESTINATION="OS=13.5,name=iPhone 11 Pro Max" SDK="iphonesimulator14.0" POD_LINT="NO" SWIFT_LINT="NO"
+    - DESTINATION="OS=14.0,name=iPhone 11" SDK="iphonesimulator14.0" POD_LINT="YES" SWIFT_LINT="YES"
+    - DESTINATION="OS=13.5,name=iPhone 11" SDK="iphonesimulator14.0" POD_LINT="NO" SWIFT_LINT="NO"
     - DESTINATION="OS=12.4,name=iPhone Xs" SDK="iphonesimulator14.0" POD_LINT="NO" SWIFT_LINT="NO"
-    - DESTINATION="OS=11.4,name=iPhone 8" SDK="iphonesimulator14.0" POD_LINT="NO" SWIFT_LINT="NO"
-    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK="iphonesimulator14.0" POD_LINT="NO" SWIFT_LINT="NO"
-    # - DESTINATION="OS=9.3,name=iPhone 6" SDK="iphonesimulator12.0" POD_LINT="NO" SWIFT_LINT="NO"
-    # - DESTINATION="OS=8.4,name=iPhone 5S" SDK="iphonesimulator12.0" POD_LINT="NO" SWIFT_LINT="NO"
 
 before_install:
   - brew install swiftlint
