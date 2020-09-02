@@ -38,7 +38,6 @@ open class McPickerBarButtonItem: UIBarButtonItem {
         if let buttonTitle = title {
             return self.init(title: buttonTitle, style: .plain, target: mcPicker, action: #selector(McPicker.done))
         }
-
         return self.init(barButtonSystemItem: barButtonSystemItem, target: mcPicker, action: #selector(McPicker.done))
     }
 
@@ -56,7 +55,6 @@ open class McPickerBarButtonItem: UIBarButtonItem {
         if let buttonTitle = title {
             return self.init(title: buttonTitle, style: .plain, target: mcPicker, action: #selector(McPicker.cancel))
         }
-
         return self.init(barButtonSystemItem: barButtonSystemItem, target: mcPicker, action: #selector(McPicker.cancel))
     }
 

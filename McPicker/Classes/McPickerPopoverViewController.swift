@@ -41,10 +41,16 @@ internal class McPickerPopoverViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         mcPicker!.sizeViews()
         mcPicker!.addAllSubviews()
         self.view.addSubview(mcPicker!)
         self.preferredContentSize = mcPicker!.popOverContentSize
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        let toolbarHeight = mcPicker?.toolbar.frame.height ?? 0
+        let safeAreaToolbarHeight = toolbarHeight + self.view.safeAreaInsets.top
+        mcPicker?.toolbar.frame = CGRect(x: 0, y: 0, width: mcPicker?.toolbar.frame.width ?? 0, height: safeAreaToolbarHeight)
+        self.preferredContentSize = CGSize(width: self.preferredContentSize.width, height: self.preferredContentSize.height - self.view.safeAreaInsets.top)
     }
 }

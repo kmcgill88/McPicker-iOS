@@ -135,10 +135,7 @@ it, simply add the following line to your Podfile:
 pod "McPicker"
 ```
 
-### Swift 5.2 Support
-
-For Swift 5.2 support, please use version `3.0.0`.
-
+### Xcode 12+ - Swift 5.2 Support
 ```ruby
 pod 'McPicker', '~> 3.0.0'
 ```
