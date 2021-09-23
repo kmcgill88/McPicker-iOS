@@ -132,7 +132,7 @@ McPicker is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "McPicker"
+pod 'McPicker', :git => 'https://github.com/KahunaSystems/McPicker-iOS.git', :tag => '2.0.3'
 ```
 
 ### Swift 4.2 Support
@@ -140,7 +140,7 @@ pod "McPicker"
 For Swift 4.2 support, please use version `2.0.0`.
 
 ```ruby
-pod 'McPicker', '~> 2.0.0'
+pod 'McPicker', :git => 'https://github.com/KahunaSystems/McPicker-iOS.git', :tag => '2.0.0'
 ```
 
 ## Author
